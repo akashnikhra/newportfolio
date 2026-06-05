@@ -117,7 +117,7 @@ function initStatCounters() {
   });
 }
 
-/* 5. Skill bar fill on view (with stagger) */
+/* 5. Skill bar fill on view (CSS transition handles the animation) */
 function initSkillBars() {
   const skills = $$(".skill");
   if (!skills.length) return;
@@ -133,12 +133,17 @@ function initSkillBars() {
       return;
     }
 
-    // Reset to 0 so the animation has something to grow from
+    // Start at 0; the CSS transition animates the width change on the next frame.
     fill.style.width = "0%";
 
     inView(s, () => {
-      animate(fill, { width: [`${0}%`, `${target}%`] }, { duration: 1.2, ease: EASE_OUT });
-    }, { amount: 0.4 });
+      // Two rAFs: first confirms the 0% state, second triggers the transition to target.
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          fill.style.width = `${target}%`;
+        });
+      });
+    }, { amount: 0.3 });
   });
 }
 

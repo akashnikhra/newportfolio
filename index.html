@@ -21,12 +21,14 @@
     <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
     <link rel="stylesheet" href="css/main.css" type="text/css">
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono&family=Space+Grotesk:wght@400&display=swap">
+    <link rel="stylesheet" href="css/cohere-hero.css" type="text/css">
+
     <style>
       .CC{
         background-color: white;
-      }
-      .Home-img{
-        background-image: url(img/bigsection.jpg);
       }
     </style>
 
@@ -120,31 +122,42 @@
           <div class="content-area">
             <div class="animated-sections">
               <!-- Home Subpage -->
-              <section data-id="home" class="animated-section start-page Home-img">
-                <div class="section-content vcentered">
+              <section data-id="home" class="animated-section start-page">
+                <div class="cohere-hero">
+                  <div class="cohere-hero__bg" aria-hidden="true"></div>
+                  <div class="cohere-hero__mg" aria-hidden="true"></div>
 
-                    <div class="row">
-                      <div class="col-sm-12 col-md-12 col-lg-12">
-                        <div class="title-block">
-                          <h2>Akash Nikhra</h2>
-                          <div class="owl-carousel text-rotation">                                    
-                            <div class="item">
-                              <div class="sp-subtitle">Secure Your Business</div>
-                            </div>
-                            
-                            <div class="item">
-                              <div class="sp-subtitle">Empower Your Team</div>
-                            </div>
+                  <div class="cohere-hero__eyebrow">CYBERSECURITY &middot; DELHI-NCR</div>
+                  <h1 class="cohere-hero__name">Akash Nikhra</h1>
+                  <p class="cohere-hero__subtitle" data-rotate aria-live="polite">
+                    <span>Secure Your Business</span>
+                    <span aria-hidden="true">Empower Your Team</span>
+                    <span aria-hidden="true">Advance Your Career</span>
+                  </p>
 
-                            <div class="item">
-                              <div class="sp-subtitle">Advance Your Career</div>
-                            </div>
+                  <div class="cohere-hero__lead">
+                    <p>Senior Control Analyst &middot; ISO 27001 &middot; NIST CSF &middot; SOC 2</p>
+                    <ul class="cohere-hero__meta">
+                      <li>6+ yrs</li>
+                      <li>Moody's &middot; EY</li>
+                      <li>ISO 27001 Lead</li>
+                    </ul>
+                  </div>
 
-                          </div>
-                        </div>
-                      </div>
+                  <div class="cohere-hero__ctas">
+                    <a href="Akash_Nikhra_Resume.pdf" target="_blank" rel="noopener" class="cohere-btn cohere-btn--primary">Download CV</a>
+                    <a href="#contact" class="cohere-btn cohere-btn--secondary">Get in touch <span class="cohere-btn__arrow">&rarr;</span></a>
+                  </div>
+
+                  <div class="cohere-hero__console" role="group" aria-label="Availability and capabilities">
+                    <div class="cohere-hero__console-row">
+                      <span class="cohere-chip cohere-chip--green">AVAILABLE</span>
+                      <span class="cohere-chip">ISO 27001:2022</span>
+                      <span class="cohere-chip">NIST CSF</span>
+                      <span class="cohere-chip">SOC 2</span>
+                      <span class="cohere-chip">VAPT</span>
                     </div>
-
+                  </div>
                 </div>
               </section>
               <!-- End of Home Subpage -->
@@ -666,6 +679,7 @@
     <script src="js/jquery.magnific-popup.min.js"></script>
     <script src="js/validator.js"></script>
     <script src="js/main.js"></script>
+    <script type="module" src="js/cohere-hero.js"></script>
 
   </body>
 

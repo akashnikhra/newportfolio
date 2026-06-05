@@ -74,7 +74,8 @@ const init = async () => {
     }
   });
 
-  // 2) Staggered reveal on load (one-shot)
+  // 2) Staggered reveal on load (one-shot). motion.dev vanilla has no stagger()
+  //    helper, so we fire one animate() per target with a cumulative delay.
   const revealTargets = [eyebrow, name, subtitle, lead, ctas, consoleEl].filter(
     Boolean
   );
@@ -85,11 +86,17 @@ const init = async () => {
   inView(
     hero,
     () => {
-      animate(
-        revealTargets,
-        { opacity: [0, 1], y: [16, 0] },
-        { delay: 0.06, duration: 0.6, easing: [0.22, 1, 0.36, 1] }
-      );
+      revealTargets.forEach((el, i) => {
+        animate(
+          el,
+          { opacity: [0, 1], y: [16, 0] },
+          {
+            delay: i * 0.06,
+            duration: 0.6,
+            easing: [0.22, 1, 0.36, 1],
+          }
+        );
+      });
     },
     { amount: 0.3 }
   );

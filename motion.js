@@ -1,6 +1,8 @@
 /* =====================================================================
    Akash Nikhra — Portfolio motion module
    ESM. Loads motion.dev v12.40.0 from esm.sh. Self-gates; safe to load.
+   Every init* is wrapped in try/catch — a single failure cannot break
+   the rest. CSS handles the static state; this module enhances only.
    See ../docs/superpowers/specs/2026-06-05-portfolio-rebuild-design.md
    §8 for behavior definitions.
    ===================================================================== */
@@ -15,30 +17,30 @@ const EASE_OUT = [0.22, 1, 0.36, 1];
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
+const safe = (name, fn) => {
+  try { fn(); }
+  catch (e) { console.warn(`[motion] ${name} failed:`, e); }
+};
+
+document.body.classList.add("motion-pending");
+console.log("[motion] module loaded, reduced=%s coarse=%s", REDUCED, COARSE);
+
 /* ---------- 1. Multi-layer parallax depth (hero) ---------- */
 function initHeroParallax() {
   const hero = $(".hero");
   if (!hero) return;
-
   const bg = $(".hero__bg", hero);
   const mg = $(".hero__mg", hero);
   const fg = $(".hero__fg", hero);
   if (!bg && !mg && !fg) return;
+  if (REDUCED) return;
 
-  scroll(hero, ({ progress }) => {
-    if (REDUCED) return;
-    if (bg) {
-      bg.style.transform = `translate3d(0, ${progress * -40}px, 0)`;
-      bg.style.opacity = String(1 - progress * 0.4);
-    }
-    if (mg) {
-      const s = 1 + progress * 0.04;
-      mg.style.transform = `translate3d(0, ${progress * -80}px, 0) scale(${s})`;
-    }
-    if (fg) {
-      const s = 1 + progress * 0.06;
-      fg.style.transform = `translate3d(0, ${progress * -120}px, 0) scale(${s})`;
-    }
+  // scroll() signature: scroll(callback, options). First arg is the
+  // progress callback, not the element. Element goes in options.target.
+  scroll((progress) => {
+    if (bg) bg.style.transform = `translate3d(0, ${progress * -40}px, 0)`;
+    if (mg) mg.style.transform = `translate3d(0, ${progress * -80}px, 0) scale(${1 + progress * 0.04})`;
+    if (fg) fg.style.transform = `translate3d(0, ${progress * -120}px, 0) scale(${1 + progress * 0.06})`;
   }, { target: hero, offset: ["start start", "end start"] });
 }
 
@@ -63,38 +65,27 @@ function initHeroTilt() {
     ty = (y - 0.5) * 2;
     if (!raf) raf = requestAnimationFrame(step);
   };
-  const onLeave = () => {
-    tx = 0; ty = 0;
-    if (!raf) raf = requestAnimationFrame(step);
-  };
+  const onLeave = () => { tx = 0; ty = 0; if (!raf) raf = requestAnimationFrame(step); };
   const step = () => {
     cx += (tx - cx) * SPRING;
     cy += (ty - cy) * SPRING;
     const rx = (-cy * 2).toFixed(2);
     const ry = (cx * 4).toFixed(2);
     content.style.transform = `perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg)`;
-    if (Math.abs(tx - cx) > 0.001 || Math.abs(ty - cy) > 0.001) {
-      raf = requestAnimationFrame(step);
-    } else {
-      raf = 0;
-    }
+    if (Math.abs(tx - cx) > 0.001 || Math.abs(ty - cy) > 0.001) raf = requestAnimationFrame(step);
+    else raf = 0;
   };
 
   content.addEventListener("pointermove", onMove, { passive: true });
   content.addEventListener("pointerleave", onLeave, { passive: true });
 }
 
-/* ---------- 3. Kinetic text reveals (hero name + section headings) ---------- */
+/* ---------- 3. Kinetic text reveals (hero name) ---------- */
 function splitWords(el) {
   const text = el.textContent;
   el.textContent = "";
-  const wrap = document.createElement("span");
-  wrap.className = "word-inner";
   text.split(/(\s+)/).forEach((token) => {
-    if (token.trim() === "") {
-      el.appendChild(document.createTextNode(" "));
-      return;
-    }
+    if (token.trim() === "") { el.appendChild(document.createTextNode(" ")); return; }
     const w = document.createElement("span");
     w.className = "word";
     const inner = document.createElement("span");
@@ -107,16 +98,10 @@ function splitWords(el) {
 function initKineticReveals() {
   const targets = $$(".hero__name");
   if (!targets.length) return;
-  targets.forEach(splitWords);
+  if (REDUCED) return; // CSS already shows words
 
   targets.forEach((el) => {
-    if (REDUCED) {
-      $$(".word > span", el).forEach((s) => {
-        s.style.opacity = "1";
-        s.style.transform = "none";
-      });
-      return;
-    }
+    splitWords(el);
     inView(el, () => {
       const words = $$(".word > span", el);
       animate(words,
@@ -129,9 +114,8 @@ function initKineticReveals() {
 
 function initHeadingReveals() {
   const headings = $$(".section__header h2");
-  if (!headings.length) return;
+  if (!headings.length || REDUCED) return;
   headings.forEach((h) => {
-    if (REDUCED) return;
     h.style.opacity = "0";
     h.style.transform = "translateY(16px)";
     inView(h, () => {
@@ -152,12 +136,6 @@ function initRotatingSubtitle() {
     return;
   }
 
-  spans.forEach((s, i) => {
-    s.style.position = i === 0 ? "static" : "absolute";
-    s.style.left = i === 0 ? "" : "0";
-    s.style.top = i === 0 ? "" : "0";
-  });
-
   const total = spans.length;
   const dur = 1.2;
   const gap = 2.0;
@@ -176,20 +154,17 @@ function initRotatingSubtitle() {
   });
 
   const pause = () => spans.forEach((s) => s.style.animationPlayState = "paused");
-  const play = () => spans.forEach((s) => s.style.animationPlayState = "running");
+  const play  = () => spans.forEach((s) => s.style.animationPlayState = "running");
   sub.addEventListener("pointerenter", pause);
   sub.addEventListener("pointerleave", play);
-  sub.addEventListener("focusin", pause);
+  sub.addEventListener("focusin",  pause);
   sub.addEventListener("focusout", play);
 }
 
-/* ---------- 5. Status pulse (hero console available dot) ---------- */
+/* ---------- 5. Status pulse (hero available dot) ---------- */
 function initStatusPulse() {
   const chip = $(".chip--available");
-  if (!chip) return;
-  if (REDUCED) return;
-  const dot = document.createElement("span");
-  // dot is already ::before; we just animate opacity on chip itself
+  if (!chip || REDUCED) return;
   animate(chip,
     { opacity: [1, 0.7, 1] },
     { duration: 1.8, repeat: Infinity, ease: "easeInOut" }
@@ -200,12 +175,14 @@ function initStatusPulse() {
 function initStatCounters() {
   const nums = $$(".stat__num");
   if (!nums.length) return;
+
   nums.forEach((el) => {
     const target = parseFloat(el.dataset.count || "0");
     if (!Number.isFinite(target)) return;
+    const suffix = el.dataset.suffix || "";
 
     if (REDUCED) {
-      el.textContent = String(target);
+      el.textContent = `${target}${suffix}`;
       return;
     }
 
@@ -213,7 +190,7 @@ function initStatCounters() {
       animate(0, target, {
         duration: 1.4,
         ease: "easeOut",
-        onUpdate: (v) => { el.textContent = String(Math.round(v)); }
+        onUpdate: (v) => { el.textContent = `${Math.round(v)}${suffix}`; }
       });
     }, { amount: 0.4 });
   });
@@ -222,12 +199,8 @@ function initStatCounters() {
 /* ---------- 7. Staggered service cards (about) ---------- */
 function initServiceCards() {
   const cards = $$(".service");
-  if (!cards.length) return;
-  if (REDUCED) return;
-  cards.forEach((c) => {
-    c.style.opacity = "0";
-    c.style.transform = "translateY(40px)";
-  });
+  if (!cards.length || REDUCED) return;
+  cards.forEach((c) => { c.style.opacity = "0"; c.style.transform = "translateY(40px)"; });
   inView($(".services"), () => {
     animate(cards,
       { opacity: [0, 1], y: [40, 0] },
@@ -239,14 +212,12 @@ function initServiceCards() {
 /* ---------- 8. Scroll-pinned experience timeline (resume) ---------- */
 function initExperiencePin() {
   const stage = $(".pin-stage");
-  if (!stage) return;
-  if (REDUCED) return;
-  if (window.matchMedia("(max-width: 768px)").matches) return; // mobile: plain stack
+  if (!stage || REDUCED) return;
+  if (matchMedia("(max-width: 768px)").matches) return;
 
   const roles = $$(".role", stage);
   if (roles.length === 0) return;
 
-  // make all roles inactive at start; first is active
   roles.forEach((r, i) => {
     r.classList.toggle("role--active", i === 0);
     r.classList.toggle("role--inactive", i !== 0);
@@ -282,12 +253,13 @@ function initSkillBars() {
 
     if (REDUCED) {
       fill.style.width = `${target}%`;
-      fill.parentElement.parentElement.style.setProperty("--p", `${target}%`);
+      s.classList.add("skill--filled");
       if (num) num.textContent = `${Math.round(target)}%`;
       return;
     }
 
     inView(s, () => {
+      fill.style.width = "0%";
       animate(fill, { width: `${target}%` }, { duration: 1.2, ease: EASE_OUT });
       if (num) {
         animate(0, target, {
@@ -295,7 +267,6 @@ function initSkillBars() {
           onUpdate: (v) => { num.textContent = `${Math.round(v)}%`; }
         });
       }
-      // mark filled after the bar finishes so head-marker pulse triggers
       setTimeout(() => s.classList.add("skill--filled"), 1200);
     }, { amount: 0.4 });
   });
@@ -308,38 +279,24 @@ function initCertTilt() {
   if (!certs.length) return;
 
   certs.forEach((card) => {
-    let raf = 0;
-    let tx = 0, ty = 0, cx = 0, cy = 0;
-    const SPRING = 0.15;
-    const MAX = 8;
+    let raf = 0, tx = 0, ty = 0, cx = 0, cy = 0;
+    const SPRING = 0.15, MAX = 8;
 
     const onMove = (e) => {
       const rect = card.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width;
-      const y = (e.clientY - rect.top) / rect.height;
-      tx = (x - 0.5) * 2;
-      ty = (y - 0.5) * 2;
-      const px = (e.clientX - rect.left);
-      const py = (e.clientY - rect.top);
-      card.style.setProperty("--glow-x", `${px}px`);
-      card.style.setProperty("--glow-y", `${py}px`);
+      tx = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+      ty = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+      card.style.setProperty("--glow-x", `${e.clientX - rect.left}px`);
+      card.style.setProperty("--glow-y", `${e.clientY - rect.top}px`);
       if (!raf) raf = requestAnimationFrame(step);
     };
-    const onLeave = () => {
-      tx = 0; ty = 0;
-      if (!raf) raf = requestAnimationFrame(step);
-    };
+    const onLeave = () => { tx = 0; ty = 0; if (!raf) raf = requestAnimationFrame(step); };
     const step = () => {
       cx += (tx - cx) * SPRING;
       cy += (ty - cy) * SPRING;
-      const rx = (-cy * MAX).toFixed(2);
-      const ry = (cx * MAX).toFixed(2);
-      card.style.transform = `perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg)`;
-      if (Math.abs(tx - cx) > 0.001 || Math.abs(ty - cy) > 0.001) {
-        raf = requestAnimationFrame(step);
-      } else {
-        raf = 0;
-      }
+      card.style.transform = `perspective(800px) rotateX(${(-cy * MAX).toFixed(2)}deg) rotateY(${(cx * MAX).toFixed(2)}deg)`;
+      if (Math.abs(tx - cx) > 0.001 || Math.abs(ty - cy) > 0.001) raf = requestAnimationFrame(step);
+      else raf = 0;
     };
 
     card.addEventListener("pointermove", onMove, { passive: true });
@@ -354,32 +311,22 @@ function initMagneticCTAs() {
   if (!btns.length) return;
 
   btns.forEach((btn) => {
-    let raf = 0;
-    let tx = 0, ty = 0, cx = 0, cy = 0;
-    const SPRING = 0.18;
-    const MAX = 4;
+    let raf = 0, tx = 0, ty = 0, cx = 0, cy = 0;
+    const SPRING = 0.18, MAX = 4;
 
     const onMove = (e) => {
       const rect = btn.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width;
-      const y = (e.clientY - rect.top) / rect.height;
-      tx = (x - 0.5) * 2 * MAX;
-      ty = (y - 0.5) * 2 * MAX;
+      tx = ((e.clientX - rect.left) / rect.width - 0.5) * 2 * MAX;
+      ty = ((e.clientY - rect.top) / rect.height - 0.5) * 2 * MAX;
       if (!raf) raf = requestAnimationFrame(step);
     };
-    const onLeave = () => {
-      tx = 0; ty = 0;
-      if (!raf) raf = requestAnimationFrame(step);
-    };
+    const onLeave = () => { tx = 0; ty = 0; if (!raf) raf = requestAnimationFrame(step); };
     const step = () => {
       cx += (tx - cx) * SPRING;
       cy += (ty - cy) * SPRING;
       btn.style.transform = `translate(${cx.toFixed(2)}px, ${cy.toFixed(2)}px)`;
-      if (Math.abs(tx - cx) > 0.01 || Math.abs(ty - cy) > 0.01) {
-        raf = requestAnimationFrame(step);
-      } else {
-        raf = 0;
-      }
+      if (Math.abs(tx - cx) > 0.01 || Math.abs(ty - cy) > 0.01) raf = requestAnimationFrame(step);
+      else raf = 0;
     };
 
     btn.addEventListener("pointermove", onMove, { passive: true });
@@ -402,13 +349,11 @@ function initCopyTiles() {
       try {
         await navigator.clipboard.writeText(value);
         hint.textContent = "Copied \u2713";
-        clearTimeout(timer);
-        timer = setTimeout(() => { hint.textContent = original; }, 1500);
       } catch (e) {
         hint.textContent = "Press Ctrl+C";
-        clearTimeout(timer);
-        timer = setTimeout(() => { hint.textContent = original; }, 1500);
       }
+      clearTimeout(timer);
+      timer = setTimeout(() => { hint.textContent = original; }, 1500);
     });
   });
 }
@@ -417,48 +362,30 @@ function initCopyTiles() {
 function initHeaderScroll() {
   const header = $(".site-header");
   if (!header) return;
-  const onScroll = () => {
-    header.classList.toggle("site-header--scrolled", window.scrollY > 80);
-  };
+  const onScroll = () => header.classList.toggle("site-header--scrolled", window.scrollY > 80);
   window.addEventListener("scroll", onScroll, { passive: true });
   onScroll();
 }
 
 /* ---------- Init ---------- */
-export function init() {
-  if (REDUCED) {
-    // Static fallback: skip everything, page is fully readable
-    $$(".stat__num").forEach((el) => {
-      el.textContent = el.dataset.count || "0";
-    });
-    $$(".skill").forEach((s) => {
-      const fill = $(".skill__bar-fill", s);
-      const num = $(".skill__num", s);
-      const p = parseFloat(s.dataset.percent || "0");
-      if (fill) {
-        fill.style.width = `${p}%`;
-        s.classList.add("skill--filled");
-      }
-      if (num) num.textContent = `${Math.round(p)}%`;
-    });
-    initHeaderScroll();
-    return;
-  }
-
+function init() {
   initHeaderScroll();
-  initHeroParallax();
-  initHeroTilt();
-  initKineticReveals();
-  initHeadingReveals();
-  initRotatingSubtitle();
-  initStatusPulse();
-  initStatCounters();
-  initServiceCards();
-  initExperiencePin();
-  initSkillBars();
-  initCertTilt();
-  initMagneticCTAs();
-  initCopyTiles();
+  safe("HeroParallax",  initHeroParallax);
+  safe("HeroTilt",      initHeroTilt);
+  safe("Kinetic",       initKineticReveals);
+  safe("Headings",      initHeadingReveals);
+  safe("Rotating",      initRotatingSubtitle);
+  safe("StatusPulse",   initStatusPulse);
+  safe("Stats",         initStatCounters);
+  safe("Services",      initServiceCards);
+  safe("Experience",    initExperiencePin);
+  safe("Skills",        initSkillBars);
+  safe("CertTilt",      initCertTilt);
+  safe("Magnetic",      initMagneticCTAs);
+  safe("CopyTiles",     initCopyTiles);
+  document.body.classList.remove("motion-pending");
+  document.body.classList.add("motion-ready");
+  console.log("[motion] all inits dispatched");
 }
 
 if (document.readyState === "loading") {

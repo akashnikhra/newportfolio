@@ -375,21 +375,35 @@ h3 { font-size: clamp(1.25rem, 2.4vw, var(--fs-28)); }
 
 .hero__bg {
   inset: 5% 8% 5% 8%;
-  opacity: 0.18;
+  opacity: 0.12;
 }
 
 .hero__mg {
-  inset: 12% 60% 12% 12%;
-  opacity: 0.32;
+  inset: 18% 62% 18% 12%;
+  opacity: 0.15;
+  filter: saturate(0.6) brightness(0.85);
 }
 
 .hero__fg {
   top: 18%;
   right: 6%;
-  width: 280px;
-  height: 380px;
-  opacity: 0.5;
-  border: 1px solid rgba(244, 241, 234, 0.12);
+  width: 240px;
+  height: 320px;
+  opacity: 0.28;
+  border: 1px solid rgba(244, 241, 234, 0.10);
+  filter: saturate(0.7) brightness(0.9);
+}
+
+/* Gradient overlay so text is always readable on top of any photo */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(14, 59, 46, 0.65) 0%, rgba(14, 59, 46, 0.85) 100%),
+    radial-gradient(circle at 30% 50%, rgba(14, 59, 46, 0.0) 0%, rgba(14, 59, 46, 0.7) 70%);
+  pointer-events: none;
+  z-index: 1;
 }
 
 .hero__content {
@@ -446,14 +460,28 @@ h3 { font-size: clamp(1.25rem, 2.4vw, var(--fs-28)); }
   letter-spacing: -0.01em;
   min-height: 1.4em;
   color: var(--forest-ink);
+  display: flex;
+  align-items: center;
 }
 
+/* First span is visible by default; subsequent spans are positioned
+   absolutely and hidden. Motion.js will animate them in/out. */
 .hero__subtitle span {
   position: absolute;
   left: 0;
-  top: 0;
+  top: 50%;
+  transform: translateY(-50%);
   display: inline-block;
+  opacity: 0;
   will-change: transform, opacity;
+}
+
+.hero__subtitle span:first-child {
+  position: relative;
+  left: auto;
+  top: auto;
+  transform: none;
+  opacity: 1;
 }
 
 .hero__subtitle em {
@@ -880,6 +908,7 @@ h3 { font-size: clamp(1.25rem, 2.4vw, var(--fs-28)); }
   border-radius: var(--r-pill);
   position: relative;
   will-change: width;
+  transition: width 1.2s var(--ease-out);
 }
 
 .skill__bar-fill::after {

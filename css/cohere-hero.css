@@ -290,6 +290,7 @@
   border-radius: 50%;
   background: #4ade80;
   flex: 0 0 auto;
+  opacity: var(--cohere-pulse-opacity, 1);
   will-change: opacity;
 }
 

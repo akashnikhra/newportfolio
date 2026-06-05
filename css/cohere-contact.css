@@ -1,0 +1,147 @@
+.cohere-section--contact {
+  position: relative;
+  display: grid;
+  gap: var(--cohere-space-section);
+  align-items: center;
+  justify-items: center;
+  min-height: 100vh;
+  text-align: center;
+  padding-top: var(--cohere-space-section);
+  padding-bottom: var(--cohere-space-section);
+  overflow: hidden;
+  isolation: isolate;
+}
+.cohere-section--contact > * { position: relative; z-index: 5; }
+
+.cohere-contact__backdrop {
+  position: absolute;
+  inset: 0;
+  background-image: url("../img/1.jpg");
+  background-size: cover;
+  background-position: center;
+  opacity: 0.18;
+  filter: saturate(0.7);
+  z-index: 0;
+  will-change: transform;
+  pointer-events: none;
+}
+
+.cohere-contact__header { display: grid; gap: var(--cohere-space-md); }
+.cohere-contact__headline {
+  font-family: var(--cohere-font-display);
+  font-size: clamp(48px, 10vw, 144px);
+  font-weight: 400;
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+  color: var(--cohere-primary);
+  margin: 0;
+}
+.cohere-contact__subhead {
+  color: var(--cohere-ink);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.cohere-contact__tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--cohere-space-lg);
+  max-width: 1100px;
+  width: 100%;
+  padding: 0 var(--cohere-space-xl);
+}
+.cohere-contact__tile {
+  display: grid;
+  gap: var(--cohere-space-sm);
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  text-decoration: none;
+  transform-style: preserve-3d;
+  transition: transform var(--cohere-transition-med) var(--cohere-ease-out-quart),
+              box-shadow var(--cohere-transition-med) var(--cohere-ease-out-quart);
+}
+.cohere-contact__tile:hover,
+.cohere-contact__tile:focus-visible {
+  transform: translateY(-4px);
+  box-shadow: var(--cohere-shadow-card-hover);
+}
+.cohere-contact__tile:focus-visible {
+  outline: 2px solid var(--cohere-focus-blue);
+  outline-offset: 2px;
+}
+.cohere-contact__tile-icon {
+  font-size: 24px;
+  color: var(--cohere-primary);
+  width: 48px; height: 48px;
+  border-radius: var(--cohere-radius-full);
+  background: var(--cohere-soft-stone);
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.cohere-contact__tile-hint {
+  font-family: var(--cohere-font-mono);
+  font-size: 12px;
+  letter-spacing: 0.28px;
+  text-transform: uppercase;
+  color: var(--cohere-muted);
+}
+
+.cohere-contact__ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--cohere-space-lg);
+  justify-content: center;
+}
+
+.cohere-contact__social {
+  display: flex;
+  gap: var(--cohere-space-md);
+}
+.cohere-contact__social-tile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px; height: 56px;
+  border-radius: var(--cohere-radius-full);
+  font-size: 22px;
+  color: var(--cohere-primary);
+  text-decoration: none;
+  transition: transform var(--cohere-transition-fast) var(--cohere-ease-out-quart),
+              background-color var(--cohere-transition-fast) var(--cohere-ease-out-quart),
+              color var(--cohere-transition-fast) var(--cohere-ease-out-quart);
+}
+.cohere-contact__social-tile:hover,
+.cohere-contact__social-tile:focus-visible {
+  background: var(--cohere-primary);
+  color: var(--cohere-on-primary);
+  transform: scale(1.08);
+}
+.cohere-contact__social-tile:focus-visible {
+  outline: 2px solid var(--cohere-focus-blue);
+  outline-offset: 2px;
+}
+
+.cohere-contact__toast {
+  position: fixed;
+  left: 50%;
+  bottom: 32px;
+  transform: translate(-50%, 32px);
+  background: var(--cohere-primary);
+  color: var(--cohere-on-primary);
+  padding: 8px 16px;
+  border-radius: var(--cohere-radius-pill);
+  font-family: var(--cohere-font-mono);
+  font-size: 12px;
+  letter-spacing: 0.28px;
+  text-transform: uppercase;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--cohere-transition-med) var(--cohere-ease-out-quart),
+              transform var(--cohere-transition-med) var(--cohere-ease-out-quart);
+  z-index: 9999;
+}
+.cohere-contact__toast.is-shown {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}

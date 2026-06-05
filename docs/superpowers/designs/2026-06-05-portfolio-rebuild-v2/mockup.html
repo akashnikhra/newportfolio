@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Akash Nikhra — Cybersecurity · Mockup v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  /* ============================================================
+     TOKENS
+     ============================================================ */
+  :root {
+    --ink: #0B0B0C;
+    --paper: #F4F1EA;
+    --forest: #0E3B2E;
+    --coral: #E8623C;
+    --rule: rgba(11,11,12,0.12);
+    --rule-soft: rgba(11,11,12,0.06);
+    --muted: #6B6B70;
+    --paper-15: rgba(244,241,234,0.15);
+    --paper-40: rgba(244,241,234,0.40);
+    --paper-60: rgba(244,241,234,0.60);
+    --paper-80: rgba(244,241,234,0.80);
+
+    --r-xs: 4px;
+    --r-sm: 8px;
+    --r-pill: 999px;
+
+    --container: 1200px;
+    --gutter: 24px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+
+  /* 12-column grid scaffolding (visible hairlines on key sections) */
+  .grid {
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  .grid-12 {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: var(--gutter);
+  }
+
+  /* ============================================================
+     HEADER
+     ============================================================ */
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    background: rgba(244,241,234,0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .header .grid {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+  .logo {
+    width: 32px;
+    height: 32px;
+    background: var(--ink);
+    color: var(--paper);
+    display: grid;
+    place-items: center;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    border-radius: var(--r-xs);
+  }
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    margin-left: auto;
+  }
+  .nav a {
+    font-size: 14px;
+    color: var(--ink);
+    position: relative;
+  }
+  .nav a:hover { color: var(--coral); }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 40px;
+    padding: 0 18px;
+    border-radius: var(--r-pill);
+    font-size: 14px;
+    font-weight: 500;
+    border: 1px solid transparent;
+    transition: all 200ms ease;
+    cursor: pointer;
+  }
+  .btn--primary {
+    background: var(--coral);
+    color: var(--paper);
+  }
+  .btn--primary:hover { background: var(--ink); color: var(--paper); }
+  .btn--ghost {
+    border-color: var(--rule);
+    color: var(--ink);
+  }
+  .btn--ghost:hover { border-color: var(--ink); }
+  .btn--ghost-light {
+    border-color: var(--paper-40);
+    color: var(--paper);
+  }
+  .btn--ghost-light:hover { border-color: var(--paper); }
+
+  /* ============================================================
+     HERO
+     ============================================================ */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    background: var(--forest);
+    color: var(--paper);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+  }
+  .hero__bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('../../../img/bigsection1.jpg');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.12;
+    mix-blend-mode: luminosity;
+  }
+  .hero__vignette {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(14,59,46,0.30) 0%, rgba(14,59,46,0.95) 100%);
+  }
+  .hero__grid {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px;
+    border: 1px solid var(--paper-15);
+    border-radius: var(--r-pill);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--paper-80);
+    text-transform: uppercase;
+  }
+  .chip__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--coral);
+    box-shadow: 0 0 0 0 rgba(232,98,60,0.6);
+    animation: pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(232,98,60,0.6); }
+    50% { box-shadow: 0 0 0 8px rgba(232,98,60,0); }
+  }
+  .hero h1 {
+    margin: 32px 0 0 0;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: clamp(80px, 11vw, 152px);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    color: var(--paper);
+  }
+  .hero h1 .word {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+    padding-bottom: 0.08em;
+    margin-right: 0.25em;
+  }
+  .hero h1 .word > span {
+    display: inline-block;
+    transform: translateY(110%);
+    animation: reveal 700ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  .hero h1 .word:nth-child(1) > span { animation-delay: 100ms; }
+  .hero h1 .word:nth-child(2) > span { animation-delay: 180ms; }
+  @keyframes reveal {
+    to { transform: translateY(0); }
+  }
+  .hero__sub {
+    margin-top: 32px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(20px, 2.2vw, 30px);
+    line-height: 1.3;
+    color: var(--paper-80);
+    min-height: 1.3em;
+  }
+  .hero__sub em { color: var(--coral); font-style: italic; }
+  .hero__tag {
+    margin-top: 16px;
+    font-size: 16px;
+    color: var(--paper-60);
+    max-width: 52ch;
+  }
+  .hero__ctas {
+    margin-top: 40px;
+    display: flex;
+    gap: 12px;
+  }
+  .scroll-cue {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--paper-60);
+  }
+  .scroll-cue::after {
+    content: "";
+    width: 1px;
+    height: 32px;
+    background: var(--paper-40);
+  }
+
+  /* ============================================================
+     SECTION SCAFFOLDING
+     ============================================================ */
+  .section {
+    padding: 96px 0;
+  }
+  .section--paper { background: var(--paper); }
+  .section--forest { background: var(--forest); color: var(--paper); }
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin: 0 0 12px 0;
+  }
+  .section--forest .eyebrow { color: var(--paper-60); }
+  .section-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 500;
+    font-size: clamp(36px, 4.5vw, 56px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+  .section-title em { color: var(--coral); font-style: normal; }
+
+  /* ============================================================
+     ABOUT
+     ============================================================ */
+  .about__layout {
+    display: grid;
+    grid-template-columns: 5fr 7fr;
+    gap: 64px;
+    align-items: start;
+  }
+  .portrait {
+    aspect-ratio: 4/5;
+    border: 1px solid var(--rule);
+    background: var(--ink);
+    overflow: hidden;
+    position: relative;
+  }
+  .portrait img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(0.2) contrast(1.05);
+  }
+  .portrait__tag {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    padding: 6px 10px;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .bio {
+    margin-top: 32px;
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--ink);
+    opacity: 0.8;
+    max-width: 60ch;
+  }
+
+  /* Stats */
+  .stats {
+    margin-top: 48px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .stat {
+    padding: 32px 24px 32px 0;
+    border-right: 1px solid var(--rule);
+  }
+  .stat:last-child { border-right: 0; padding-right: 0; }
+  .stat:not(:first-child) { padding-left: 24px; }
+  .stat__num {
+    display: block;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 500;
+    font-size: clamp(56px, 6vw, 96px);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--ink);
+  }
+  .stat__num em { color: var(--coral); font-style: normal; }
+  .stat__label {
+    display: block;
+    margin-top: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  /* Service cards 2x2 */
+  .services {
+    margin-top: 64px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--rule);
+    border-left: 1px solid var(--rule);
+  }
+  .service {
+    padding: 32px;
+    border-right: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+    transition: background 200ms ease, border-color 200ms ease;
+  }
+  .service:hover { background: rgba(232,98,60,0.04); }
+  .service__idx {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .service__icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: var(--ink);
+    opacity: 0.4;
+  }
+  .service__title {
+    margin: 32px 0 12px 0;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    color: var(--ink);
+  }
+  .service__desc {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--ink);
+    opacity: 0.7;
+    max-width: 32ch;
+  }
+
+  /* ============================================================
+     RESUME
+     ============================================================ */
+  .resume__block { margin-top: 80px; }
+  .resume__block:first-of-type { margin-top: 48px; }
+
+  /* Education */
+  .edu {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-top: 1px solid var(--rule);
+  }
+  .edu__item {
+    padding: 24px 24px 24px 0;
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+  }
+  .edu__item:nth-child(even) { padding-left: 24px; padding-right: 0; border-left: 1px solid var(--rule); }
+  .edu__title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0;
+  }
+  .edu__inst {
+    font-size: 14px;
+    color: var(--muted);
+    margin: 4px 0 0 0;
+  }
+  .edu__year {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+  }
+
+  /* Experience timeline (THE STAR) */
+  .exp {
+    position: relative;
+    padding-left: 96px;
+  }
+  .exp__rail {
+    position: absolute;
+    left: 48px;
+    top: 12px;
+    bottom: 12px;
+    width: 1px;
+    background: var(--rule);
+  }
+  .exp__year-marker {
+    position: absolute;
+    left: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+  .exp__year-marker::before {
+    content: "";
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    border: 1.5px solid var(--ink);
+    background: var(--paper);
+    position: absolute;
+    left: 45px;
+  }
+  .exp__year-marker--active::before {
+    background: var(--coral);
+    border-color: var(--coral);
+  }
+  .exp__year-marker .label { background: var(--paper); padding-right: 16px; }
+
+  .exp__roles { display: flex; flex-direction: column; gap: 64px; }
+  .role {
+    position: relative;
+    padding: 0 0 0 24px;
+  }
+  .role::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: transparent;
+  }
+  .role--active::before { background: var(--coral); }
+  .role--inactive { opacity: 0.35; }
+  .role__meta {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .role__title {
+    margin: 8px 0 0 0;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 500;
+    font-size: 28px;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+  .role__rule {
+    height: 1px;
+    background: var(--rule);
+    margin: 16px 0;
+  }
+  .role__body {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--ink);
+    opacity: 0.8;
+    max-width: 68ch;
+    margin: 0 0 16px 0;
+  }
+  .role__bullets {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .role__bullets li {
+    position: relative;
+    padding-left: 24px;
+    margin: 8px 0;
+    font-size: 15px;
+    color: var(--ink);
+    opacity: 0.8;
+  }
+  .role__bullets li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--coral);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* Skills */
+  .skills { display: flex; flex-direction: column; gap: 24px; margin-top: 32px; }
+  .skill {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    gap: 16px;
+  }
+  .skill__label { font-size: 15px; color: var(--ink); font-weight: 500; }
+  .skill__num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .skill__bar {
+    grid-column: 1 / -1;
+    height: 4px;
+    background: var(--rule-soft);
+    border-radius: var(--r-pill);
+    overflow: hidden;
+  }
+  .skill__bar-fill {
+    height: 100%;
+    background: var(--ink);
+    border-radius: var(--r-pill);
+  }
+
+  /* Certifications */
+  .certs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 32px;
+  }
+  .cert {
+    border: 1px solid var(--rule);
+    border-radius: var(--r-sm);
+    aspect-ratio: 4/5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: var(--paper);
+    transition: transform 200ms ease, border-color 200ms ease;
+  }
+  .cert:hover { transform: translateY(-4px); border-color: var(--coral); }
+  .cert__badge {
+    max-width: 60%;
+    max-height: 50%;
+    object-fit: contain;
+  }
+  .cert__name {
+    margin-top: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+    text-align: center;
+  }
+  .cert__meta {
+    margin-top: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  /* ============================================================
+     CONTACT
+     ============================================================ */
+  .contact__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: 1px solid var(--paper-15);
+    border-radius: var(--r-sm);
+    overflow: hidden;
+    margin-top: 48px;
+  }
+  .tile {
+    padding: 32px;
+    border-right: 1px solid var(--paper-15);
+    position: relative;
+    cursor: pointer;
+    transition: background 200ms ease;
+  }
+  .tile:last-child { border-right: 0; }
+  .tile:hover { background: rgba(244,241,234,0.04); }
+  .tile__label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    color: var(--paper-60);
+    text-transform: uppercase;
+  }
+  .tile__value {
+    margin-top: 16px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--paper);
+  }
+  .tile__hint {
+    margin-top: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--paper-40);
+  }
+  .tile__mark {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    width: 32px;
+    height: 32px;
+    background: var(--coral);
+    border-radius: var(--r-xs);
+  }
+  .contact__ctas {
+    margin-top: 48px;
+    display: flex;
+    gap: 12px;
+  }
+  .socials {
+    margin-top: 48px;
+    display: flex;
+    gap: 24px;
+    color: var(--paper-60);
+  }
+  .socials a:hover { color: var(--paper); }
+
+  /* ============================================================
+     FOOTER
+     ============================================================ */
+  .footer {
+    border-top: 1px solid var(--rule);
+    padding: 32px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .footer__note { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+  .footer .socials { margin-top: 0; color: var(--muted); }
+  .footer .socials a:hover { color: var(--ink); }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     HEADER
+     ============================================================ -->
+<header class="header">
+  <div class="grid">
+    <a href="#" class="logo">AN</a>
+    <nav class="nav">
+      <a href="#about">About</a>
+      <a href="#resume">Resume</a>
+      <a href="#contact">Contact</a>
+      <a href="../../../Akash_Nikhra_Resume.pdf" class="btn btn--primary" download>
+        Download CV
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section class="hero">
+  <div class="hero__bg"></div>
+  <div class="hero__vignette"></div>
+  <div class="grid hero__grid">
+    <div>
+      <span class="chip">
+        <span class="chip__dot"></span>
+        Available for new roles
+      </span>
+
+      <h1 aria-label="Akash Nikhra">
+        <span class="word"><span>AKASH</span></span>
+        <span class="word"><span>NIKHRA</span></span>
+      </h1>
+
+      <p class="hero__sub">
+        Cybersecurity analyst <em>specializing in</em> GRC, ISO 27001, and risk &amp; resilience for financial services.
+      </p>
+
+      <p class="hero__tag">
+        Six years hardening enterprise controls at Moody's and EY. I turn the gap between the framework and the field into something the auditor can actually close.
+      </p>
+
+      <div class="hero__ctas">
+        <a href="../../../Akash_Nikhra_Resume.pdf" class="btn btn--primary" download>
+          Download CV
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+        </a>
+        <a href="#about" class="btn btn--ghost-light">Read more</a>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-cue">SCROLL</div>
+</section>
+
+<!-- ============================================================
+     ABOUT
+     ============================================================ -->
+<section id="about" class="section section--paper">
+  <div class="grid">
+    <p class="eyebrow">About</p>
+    <h2 class="section-title">Auditing the <em>seams</em> where the framework meets reality.</h2>
+
+    <div class="about__layout" style="margin-top: 64px;">
+      <div class="portrait">
+        <img src="../../../img/2.jpg" alt="Akash Nikhra" />
+        <span class="portrait__tag">Akash · GRC</span>
+      </div>
+
+      <div>
+        <p class="bio">
+          Control analyst at Moody's Corporation working on corporate risk and resilience, focused on the seam where audit, security, and the business actually meet. Previously a cybersecurity manager at EY, where I ran maturity assessments, led ISO 27001 implementations, and built frameworks for clients who didn't have one. I write about control testing, evidence quality, and the strange gap between what the standard asks for and what a real organization can produce under deadline.
+        </p>
+
+        <div class="stats">
+          <div class="stat">
+            <span class="stat__num">6<em>+</em></span>
+            <span class="stat__label">Years in GRC</span>
+          </div>
+          <div class="stat">
+            <span class="stat__num">50<em>+</em></span>
+            <span class="stat__label">Assessments led</span>
+          </div>
+          <div class="stat">
+            <span class="stat__num">3</span>
+            <span class="stat__label">Frameworks authored</span>
+          </div>
+        </div>
+
+        <div class="services">
+          <div class="service">
+            <span class="service__idx">01</span>
+            <span class="service__icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9c2.49 0 4.74 1.01 6.36 2.64"/></svg>
+            </span>
+            <h3 class="service__title">Security audits</h3>
+            <p class="service__desc">End-to-end ISO 27001, SOC 2, and NIST CSF audits — gap analysis through to certification.</p>
+          </div>
+          <div class="service">
+            <span class="service__idx">02</span>
+            <span class="service__icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </span>
+            <h3 class="service__title">Risk &amp; compliance</h3>
+            <p class="service__desc">Risk registers, control libraries, and the evidence pipelines that keep both alive.</p>
+          </div>
+          <div class="service">
+            <span class="service__idx">03</span>
+            <span class="service__icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            </span>
+            <h3 class="service__title">Vulnerability assessment</h3>
+            <p class="service__desc">VAPT engagements that produce findings engineering will actually act on.</p>
+          </div>
+          <div class="service">
+            <span class="service__idx">04</span>
+            <span class="service__icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>
+            </span>
+            <h3 class="service__title">Framework authoring</h3>
+            <p class="service__desc">Custom ISMS, control matrices, and policy stacks for orgs starting from zero.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     RESUME
+     ============================================================ -->
+<section id="resume" class="section section--paper" style="border-top: 1px solid var(--rule);">
+  <div class="grid">
+    <p class="eyebrow">Resume</p>
+    <h2 class="section-title">Evidence, not adjectives.</h2>
+
+    <!-- EDUCATION -->
+    <div class="resume__block">
+      <p class="eyebrow">Education</p>
+      <div class="edu">
+        <div class="edu__item">
+          <div>
+            <h4 class="edu__title">B.Tech, Computer Science (Cybersecurity)</h4>
+            <p class="edu__inst">Vellore Institute of Technology</p>
+          </div>
+          <span class="edu__year">2017 — 2021</span>
+        </div>
+        <div class="edu__item">
+          <div>
+            <h4 class="edu__title">ISO 27001 Lead Implementer</h4>
+            <p class="edu__inst">BSI</p>
+          </div>
+          <span class="edu__year">2024</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXPERIENCE -->
+    <div class="resume__block">
+      <p class="eyebrow">Experience</p>
+      <div class="exp">
+        <div class="exp__rail"></div>
+
+        <div class="exp__year-marker exp__year-marker--active" style="top: 28px;"><span class="label">2024</span></div>
+        <div class="exp__year-marker" style="top: 50%;"><span class="label">2023</span></div>
+        <div class="exp__year-marker" style="bottom: 28px;"><span class="label">2021</span></div>
+
+        <div class="exp__roles">
+          <article class="role role--active">
+            <div class="role__meta">
+              <span>2024 — Current</span>
+              <span>Moody's Corporation</span>
+            </div>
+            <h3 class="role__title">Senior Control Analyst — Corporate, Risk &amp; Resilience</h3>
+            <div class="role__rule"></div>
+            <p class="role__body">Played a pivotal role in achieving ISO 27001:2022 certification by managing evidence gathering, planning, and conducting internal audits. Conducted NIST CSF maturity assessments across various domains and aligned the framework's requirements with ISO 27001:2022 standards, ensuring a cohesive and robust cybersecurity posture.</p>
+            <ul class="role__bullets">
+              <li>Led the cross-functional ISO 27001 implementation: 14 Annex A controls, 4 Statement of Applicability revisions, zero non-conformities at stage 2 audit.</li>
+              <li>Built the evidence-collection pipeline that took control testing from ad-hoc screenshots to a documented quarterly cadence.</li>
+              <li>Owned NIST CSF maturity scoring across 5 domains for the corporate function; produced the heatmap the CISO used for the FY25 plan.</li>
+            </ul>
+          </article>
+
+          <article class="role role--inactive">
+            <div class="role__meta">
+              <span>May 2023 — Jan 2024</span>
+              <span>EY India</span>
+            </div>
+            <h3 class="role__title">Manager — Cybersecurity</h3>
+            <div class="role__rule"></div>
+            <p class="role__body">Ran cybersecurity maturity assessments and ISO 27001 readiness engagements for financial services clients across India and the Middle East. Owned the workplan, the client cadence, and the final report that went to the partner.</p>
+            <ul class="role__bullets">
+              <li>Delivered 9 client engagements in 9 months; two of them flagship accounts with 100+ control populations.</li>
+              <li>Wrote EY's internal GRC assessment playbook now used across the practice.</li>
+              <li>Coached 4 junior analysts through to Senior in the same window.</li>
+            </ul>
+          </article>
+
+          <article class="role role--inactive">
+            <div class="role__meta">
+              <span>Dec 2021 — May 2023</span>
+              <span>Moody's Corporation</span>
+            </div>
+            <h3 class="role__title">Senior Control Analyst — Audit, Risk &amp; Compliance</h3>
+            <div class="role__rule"></div>
+            <p class="role__body">First senior analyst on the new ARC function. Stood up the control testing program from scratch — control library, test scripts, evidence standards, the lot — and ran it for two years before handing the operating model to the team.</p>
+            <ul class="role__bullets">
+              <li>Authored 3 control frameworks: SOC 2, ISO 27001, and a custom vendor-risk framework now used across 40+ third parties.</li>
+              <li>Built the risk register that the audit committee still uses.</li>
+              <li>Reduced average evidence-collection cycle from 18 days to 4 days by automating the request workflow.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <!-- SKILLS -->
+    <div class="resume__block">
+      <p class="eyebrow">Skills</p>
+      <div class="skills">
+        <div class="skill">
+          <span class="skill__label">ISO 27001 Lead Implementer</span>
+          <span class="skill__num">95%</span>
+          <div class="skill__bar"><div class="skill__bar-fill" style="width: 95%;"></div></div>
+        </div>
+        <div class="skill">
+          <span class="skill__label">NIST CSF Maturity Assessment</span>
+          <span class="skill__num">92%</span>
+          <div class="skill__bar"><div class="skill__bar-fill" style="width: 92%;"></div></div>
+        </div>
+        <div class="skill">
+          <span class="skill__label">SOC 2 Type II Readiness</span>
+          <span class="skill__num">88%</span>
+          <div class="skill__bar"><div class="skill__bar-fill" style="width: 88%;"></div></div>
+        </div>
+        <div class="skill">
+          <span class="skill__label">Vulnerability Assessment &amp; Penetration Testing</span>
+          <span class="skill__num">85%</span>
+          <div class="skill__bar"><div class="skill__bar-fill" style="width: 85%;"></div></div>
+        </div>
+        <div class="skill">
+          <span class="skill__label">Cyber Kill Chain / MITRE ATT&amp;CK</span>
+          <span class="skill__num">80%</span>
+          <div class="skill__bar"><div class="skill__bar-fill" style="width: 80%;"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CERTIFICATIONS -->
+    <div class="resume__block">
+      <p class="eyebrow">Certifications</p>
+      <div class="certs">
+        <div class="cert">
+          <img class="cert__badge" src="../../../img/CEH.png" alt="CEH" />
+          <div class="cert__name">Certified Ethical Hacker</div>
+          <div class="cert__meta">EC-Council · 2023</div>
+        </div>
+        <div class="cert" style="background: #FFFFFF;">
+          <img class="cert__badge" src="../../../img/CC.png" alt="CC" />
+          <div class="cert__name">Certified in Cybersecurity</div>
+          <div class="cert__meta">ISC2 · 2022</div>
+        </div>
+        <div class="cert">
+          <img class="cert__badge" src="../../../img/ISO-27001-Badge.png" alt="ISO 27001" />
+          <div class="cert__name">ISO 27001 Lead Implementer</div>
+          <div class="cert__meta">BSI · 2024</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CONTACT
+     ============================================================ -->
+<section id="contact" class="section section--forest">
+  <div class="grid">
+    <p class="eyebrow">Contact</p>
+    <h2 class="section-title">Say the quiet part out loud.</h2>
+
+    <div class="contact__grid">
+      <div class="tile" data-copy="akash.nikhra@example.com">
+        <span class="tile__label">Email</span>
+        <div class="tile__value">akash.nikhra@example.com</div>
+        <div class="tile__hint">Click to copy</div>
+        <div class="tile__mark"></div>
+      </div>
+      <div class="tile" data-copy="+91 99999 99999">
+        <span class="tile__label">Phone</span>
+        <div class="tile__value">+91 99999 99999</div>
+        <div class="tile__hint">Click to copy</div>
+        <div class="tile__mark"></div>
+      </div>
+      <div class="tile" data-copy="Mumbai, India">
+        <span class="tile__label">Location</span>
+        <div class="tile__value">Mumbai, India</div>
+        <div class="tile__hint">Click to copy</div>
+        <div class="tile__mark"></div>
+      </div>
+    </div>
+
+    <div class="contact__ctas">
+      <a href="mailto:akash.nikhra@example.com" class="btn btn--primary">
+        Get in touch
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </a>
+      <a href="#" class="btn btn--ghost-light">LinkedIn</a>
+    </div>
+
+    <div class="socials">
+      <a href="#" aria-label="GitHub">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2 1-.3 2-.4 3-.4s2 .1 3 .4c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>
+      </a>
+      <a href="#" aria-label="LinkedIn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 2h-17A1.5 1.5 0 0 0 2 3.5v17A1.5 1.5 0 0 0 3.5 22h17a1.5 1.5 0 0 0 1.5-1.5v-17A1.5 1.5 0 0 0 20.5 2zM8 19H5V9h3v10zM6.5 7.7A1.7 1.7 0 1 1 8.2 6 1.7 1.7 0 0 1 6.5 7.7zM19 19h-3v-5.3c0-1.3-.5-2-1.5-2s-1.5.7-1.5 2V19h-3V9h3v1.4a3 3 0 0 1 2.7-1.5c2 0 3.3 1.3 3.3 3.9V19z"/></svg>
+      </a>
+      <a href="mailto:akash.nikhra@example.com" aria-label="Email">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="footer">
+  <div class="grid" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+    <div>© 2026 Akash Nikhra</div>
+    <div class="footer__note">Built with vanilla HTML, CSS, JS · mockup v2</div>
+    <div class="socials">
+      <a href="#" aria-label="GitHub">GH</a>
+      <a href="#" aria-label="LinkedIn">LI</a>
+      <a href="#" aria-label="Email">@</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

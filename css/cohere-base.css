@@ -1,0 +1,295 @@
+:root {
+  /* color (unchanged from previous design) */
+  --cohere-primary:        #17171c;
+  --cohere-canvas:         #ffffff;
+  --cohere-ink:            #212121;
+  --cohere-soft-stone:     #eeece7;
+  --cohere-hairline:       #d9d9dd;
+  --cohere-border-light:   #e5e7eb;
+  --cohere-deep-green:     #003c33;
+  --cohere-coral:          #ff7759;
+  --cohere-muted:          #93939f;
+  --cohere-on-primary:     #ffffff;
+  --cohere-focus-blue:     #4c6ee6;
+
+  /* type */
+  --cohere-font-display:   "Space Grotesk", Inter, system-ui, sans-serif;
+  --cohere-font-body:      Inter, system-ui, sans-serif;
+  --cohere-font-mono:      "JetBrains Mono", ui-monospace, monospace;
+
+  /* radius */
+  --cohere-radius-xs:         4px;
+  --cohere-radius-sm:         8px;
+  --cohere-radius-md:         16px;
+  --cohere-radius-lg:         22px;
+  --cohere-radius-xl:         30px;
+  --cohere-radius-pill:       32px;
+  --cohere-radius-full:       9999px;
+  --cohere-radius-card:       var(--cohere-radius-md);
+  --cohere-radius-hero-photo: var(--cohere-radius-lg);
+  --cohere-radius-pill-btn:   var(--cohere-radius-pill);
+
+  /* spacing */
+  --cohere-space-section: 80px;
+  --cohere-space-xl:      32px;
+  --cohere-space-lg:      24px;
+  --cohere-space-md:      12px;
+  --cohere-space-sm:      8px;
+  --cohere-space-xs:      6px;
+
+  /* new tokens for the expanded system */
+  --cohere-shadow-card-hover: 0 24px 48px -16px rgba(23, 23, 28, 0.18);
+  --cohere-shadow-cert-tilt:  0 32px 64px -24px rgba(0, 60, 51, 0.28);
+  --cohere-ease-out-quart:    cubic-bezier(0.22, 1, 0.36, 1);
+  --cohere-ease-in-out-circ:  cubic-bezier(0.85, 0, 0.15, 1);
+  --cohere-marquee-duration:  40s;
+  --cohere-tilt-max-deg:      8deg;
+  --cohere-transition-fast:   180ms;
+  --cohere-transition-med:    350ms;
+}
+
+.cohere-section {
+  position: relative;
+  width: 100%;
+  background: var(--cohere-canvas);
+  color: var(--cohere-ink);
+  font-family: var(--cohere-font-body);
+  padding: var(--cohere-space-section) var(--cohere-space-xl);
+  box-sizing: border-box;
+}
+.cohere-section *,
+.cohere-section *::before,
+.cohere-section *::after { box-sizing: inherit; }
+
+.cohere-section__header {
+  max-width: 1200px;
+  margin: 0 auto var(--cohere-space-section);
+  display: grid;
+  gap: var(--cohere-space-md);
+}
+.cohere-section__subheader {
+  max-width: 1200px;
+  margin: var(--cohere-space-section) auto var(--cohere-space-lg);
+}
+.cohere-section__subheader .cohere-eyebrow { margin: 0; }
+
+/* type primitives */
+.cohere-display {
+  font-family: var(--cohere-font-display);
+  font-weight: 400;
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+  font-size: clamp(36px, 9vw, 96px);
+  margin: 0;
+  color: var(--cohere-primary);
+}
+.cohere-h2 {
+  font-family: var(--cohere-font-display);
+  font-weight: 400;
+  line-height: 1.0;
+  letter-spacing: -0.01em;
+  font-size: clamp(32px, 6vw, 60px);
+  margin: 0;
+  color: var(--cohere-primary);
+}
+.cohere-h3 {
+  font-family: var(--cohere-font-display);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.005em;
+  font-size: clamp(20px, 2.4vw, 32px);
+  margin: 0;
+  color: var(--cohere-primary);
+}
+.cohere-body-large {
+  font-family: var(--cohere-font-body);
+  font-size: 18px;
+  line-height: 1.4;
+  font-weight: 400;
+  margin: 0;
+  color: var(--cohere-ink);
+}
+.cohere-body {
+  font-family: var(--cohere-font-body);
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 400;
+  margin: 0;
+  color: var(--cohere-ink);
+}
+.cohere-caption {
+  font-family: var(--cohere-font-body);
+  font-size: 14px;
+  line-height: 1.4;
+  font-weight: 400;
+  margin: 0;
+  color: var(--cohere-muted);
+}
+.cohere-eyebrow,
+.cohere-mono-label {
+  font-family: var(--cohere-font-mono);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0.28px;
+  text-transform: uppercase;
+  color: var(--cohere-muted);
+  margin: 0;
+  display: inline-block;
+}
+
+/* buttons */
+.cohere-btn {
+  font-family: var(--cohere-font-body);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.71;
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--cohere-space-sm);
+  transition: background-color var(--cohere-transition-fast) var(--cohere-ease-out-quart),
+              color var(--cohere-transition-fast) var(--cohere-ease-out-quart),
+              transform var(--cohere-transition-fast) var(--cohere-ease-out-quart),
+              box-shadow var(--cohere-transition-fast) var(--cohere-ease-out-quart);
+  border: 0;
+  background: transparent;
+  padding: 0;
+}
+.cohere-btn--primary {
+  background: var(--cohere-primary);
+  color: var(--cohere-on-primary);
+  border-radius: var(--cohere-radius-pill-btn);
+  padding: 12px 24px;
+  will-change: background-color, transform;
+}
+.cohere-btn--primary:hover,
+.cohere-btn--primary:focus-visible { background: #000000; }
+.cohere-btn--primary:focus-visible {
+  outline: 2px solid var(--cohere-focus-blue);
+  outline-offset: 2px;
+}
+.cohere-btn--secondary {
+  color: var(--cohere-ink);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  padding: 8px 0;
+}
+.cohere-btn--secondary:focus-visible { color: var(--cohere-primary); }
+.cohere-btn--ghost {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--cohere-radius-full);
+  border: 1px solid var(--cohere-hairline);
+  color: var(--cohere-ink);
+  font-size: 18px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+.cohere-btn--ghost:hover,
+.cohere-btn--ghost:focus-visible {
+  background: var(--cohere-primary);
+  color: var(--cohere-on-primary);
+  border-color: var(--cohere-primary);
+}
+.cohere-btn--ghost:focus-visible {
+  outline: 2px solid var(--cohere-focus-blue);
+  outline-offset: 2px;
+}
+.cohere-btn__arrow {
+  display: inline-block;
+  transition: transform var(--cohere-transition-fast) var(--cohere-ease-out-quart);
+}
+.cohere-btn--secondary:hover .cohere-btn__arrow,
+.cohere-btn--secondary:focus-visible .cohere-btn__arrow { transform: translateX(4px); }
+
+/* chips */
+.cohere-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: var(--cohere-radius-full);
+  border: 1px solid var(--cohere-hairline);
+  padding: 4px 12px;
+  font-family: var(--cohere-font-mono);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.4;
+  text-transform: uppercase;
+  letter-spacing: 0.28px;
+  color: var(--cohere-ink);
+  background: transparent;
+}
+.cohere-chip--green {
+  background: var(--cohere-deep-green);
+  border-color: var(--cohere-deep-green);
+  color: var(--cohere-on-primary);
+}
+.cohere-chip--green::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #4ade80;
+  flex: 0 0 auto;
+  opacity: var(--cohere-pulse-opacity, 1);
+  will-change: opacity;
+}
+
+/* card primitive */
+.cohere-card {
+  background: var(--cohere-canvas);
+  border-radius: var(--cohere-radius-card);
+  padding: var(--cohere-space-lg);
+  box-shadow: 0 1px 0 var(--cohere-border-light);
+  border: 1px solid var(--cohere-border-light);
+  transition: transform var(--cohere-transition-med) var(--cohere-ease-out-quart),
+              box-shadow var(--cohere-transition-med) var(--cohere-ease-out-quart),
+              opacity var(--cohere-transition-med) var(--cohere-ease-out-quart);
+  will-change: transform, box-shadow;
+}
+.cohere-card[data-active] {
+  transform: scale(1.02);
+  box-shadow: var(--cohere-shadow-card-hover);
+}
+
+/* console */
+.cohere-console {
+  background: var(--cohere-primary);
+  color: var(--cohere-on-primary);
+  border-radius: var(--cohere-radius-sm);
+  padding: var(--cohere-space-lg);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--cohere-space-md);
+  align-items: center;
+}
+.cohere-console .cohere-chip {
+  border-color: rgba(255, 255, 255, 0.18);
+  color: var(--cohere-on-primary);
+}
+
+/* global focus ring */
+:focus-visible {
+  outline: 2px solid var(--cohere-focus-blue);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* reduced motion: neutralize all transitions/transforms globally.
+   Page-specific CSS may add to this list. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,1542 @@
+<!doctype html>
+<!--
+  Akash Nikhra — Portfolio v3
+  Technical mono-grid, calm-evidence posture, pushed into a cinematic single-page scroll.
+
+  Motion-ready markup (motion.dev v12.40.0 ESM, wired in implementation phase):
+    • Hero depth layers:    .hero__layer--bg / .hero__layer--mid / .hero__layer--fg  →  scroll(y) on each
+    • Section reveals:      [data-reveal] / [data-reveal-stagger]                   →  inView() sweep
+    • Resume rail:          .role--active / .role--inactive                          →  class toggle
+    • Skill fills:          .skill__fill with inline style="width:X%"               →  animate from 0 → X%
+    • Counters:             [data-count="6"]0[/data-count]                          →  tween numeric value
+    • Contact copy:         .tile__copy span inside .tile                          →  swap to "Copied ✓"
+    • Scroll progress:      .scroll-progress fill                                   →  scaleX 0→1
+    No JS in this file — markup is structured so the motion layer is one-liners.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Akash Nikhra — Cybersecurity, GRC & Risk Resilience</title>
+  <meta name="description" content="Senior Control Analyst at Moody's. GRC, ISO 27001, SOC 2, NIST CSF, risk & resilience for financial services. Mumbai, India." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" />
+  <style>
+    /* =========================================================
+       TOKENS — locked, do not modify values
+       ========================================================= */
+    :root {
+      --ink:        #0B0B0C;
+      --paper:      #F4F1EA;
+      --forest:     #0E3B2E;
+      --coral:      #E8623C;
+
+      --rule:       rgba(11, 11, 12, 0.12);
+      --rule-soft:  rgba(11, 11, 12, 0.06);
+      --muted:      #6B6B70;
+
+      --paper-15:   rgba(244, 241, 234, 0.15);
+      --paper-40:   rgba(244, 241, 234, 0.40);
+      --paper-60:   rgba(244, 241, 234, 0.60);
+      --paper-80:   rgba(244, 241, 234, 0.80);
+
+      --coral-tint: rgba(232, 98, 60, 0.04);
+
+      --font-display: 'Space Grotesk', system-ui, sans-serif;
+      --font-body:    'Inter', system-ui, sans-serif;
+      --font-mono:    'JetBrains Mono', ui-monospace, Menlo, monospace;
+
+      --gutter: clamp(20px, 4vw, 56px);
+      --max:    1280px;
+      --hairline: 1px;
+
+      --t-fast:   160ms cubic-bezier(0.2, 0.7, 0.2, 1);
+      --t-base:   320ms cubic-bezier(0.2, 0.7, 0.2, 1);
+      --t-slow:   640ms cubic-bezier(0.2, 0.7, 0.2, 1);
+    }
+
+    /* =========================================================
+       RESET / BASE
+       ========================================================= */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      font-feature-settings: 'ss01' on, 'cv11' on;
+    }
+    img { display: block; max-width: 100%; height: auto; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; background: none; border: 0; color: inherit; padding: 0; }
+    ::selection { background: var(--coral); color: var(--paper); }
+
+    .wrap {
+      width: 100%;
+      max-width: var(--max);
+      margin: 0 auto;
+      padding-left: var(--gutter);
+      padding-right: var(--gutter);
+    }
+
+    /* focus */
+    :focus-visible {
+      outline: 2px solid var(--coral);
+      outline-offset: 2px;
+      border-radius: 2px;
+    }
+
+    /* =========================================================
+       SCROLL PROGRESS (global, cross-section)
+       ========================================================= */
+    .scroll-progress {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: transparent;
+      z-index: 50;
+      pointer-events: none;
+    }
+    .scroll-progress__fill {
+      width: 100%;
+      height: 100%;
+      background: var(--coral);
+      transform-origin: left center;
+      transform: scaleX(0);
+      will-change: transform;
+    }
+
+    /* =========================================================
+       HEADER
+       ========================================================= */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(244, 241, 234, 0.85);
+      backdrop-filter: saturate(160%) blur(10px);
+      -webkit-backdrop-filter: saturate(160%) blur(10px);
+      border-bottom: var(--hairline) solid var(--rule-soft);
+    }
+    .header__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .header__brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 15px;
+      letter-spacing: -0.01em;
+    }
+    .header__mark {
+      width: 22px; height: 22px;
+      border: 1.5px solid var(--ink);
+      position: relative;
+    }
+    .header__mark::after {
+      content: '';
+      position: absolute;
+      inset: 4px;
+      background: var(--coral);
+    }
+    .header__nav {
+      display: flex;
+      gap: 28px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .header__nav a {
+      position: relative;
+      padding: 4px 0;
+      color: var(--ink);
+      transition: color var(--t-fast);
+    }
+    .header__nav a::after {
+      content: '';
+      position: absolute;
+      left: 0; right: 0; bottom: -2px;
+      height: 1px;
+      background: var(--coral);
+      transform: scaleX(0);
+      transform-origin: left center;
+      transition: transform var(--t-base);
+    }
+    .header__nav a:hover::after { transform: scaleX(1); }
+
+    @media (max-width: 640px) {
+      .header__nav { gap: 16px; font-size: 11px; }
+    }
+    @media (max-width: 480px) {
+      .header__nav .nav__about,
+      .header__nav .nav__resume { display: none; }
+    }
+
+    /* =========================================================
+       HERO — layered parallax depth
+       ========================================================= */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      padding-top: 96px;
+      padding-bottom: clamp(48px, 8vh, 96px);
+      background: var(--ink);
+      color: var(--paper);
+    }
+    .hero__layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      will-change: transform;
+    }
+    .hero__layer--bg {
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 20%, rgba(232,98,60,0.10), transparent 60%),
+        radial-gradient(ellipse 60% 60% at 90% 90%, rgba(14,59,46,0.55), transparent 60%),
+        linear-gradient(180deg, #0B0B0C 0%, #131514 100%);
+    }
+    .hero__layer--mid {
+      background-image: url('img/bigsection1.jpg');
+      background-size: cover;
+      background-position: center 30%;
+      opacity: 0.55;
+      mix-blend-mode: luminosity;
+    }
+    .hero__layer--mid::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(11,11,12,0.20) 0%, rgba(11,11,12,0.55) 100%);
+    }
+    .hero__layer--fg {
+      background-image:
+        linear-gradient(rgba(244,241,234,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(244,241,234,0.06) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, #000 30%, transparent 80%);
+      -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, #000 30%, transparent 80%);
+    }
+
+    /* system status readout — pinned top right of hero */
+    .hero__status {
+      position: absolute;
+      top: 24px;
+      right: var(--gutter);
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      line-height: 1.6;
+      letter-spacing: 0.04em;
+      color: var(--paper-60);
+      text-align: right;
+      z-index: 2;
+    }
+    .hero__status-dot {
+      display: inline-block;
+      width: 6px; height: 6px;
+      background: var(--coral);
+      border-radius: 50%;
+      margin-right: 6px;
+      vertical-align: middle;
+      box-shadow: 0 0 0 0 rgba(232,98,60,0.6);
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(232,98,60,0.6); }
+      50% { box-shadow: 0 0 0 6px rgba(232,98,60,0); }
+    }
+    .hero__status strong {
+      color: var(--paper);
+      font-weight: 500;
+    }
+    @media (max-width: 640px) {
+      .hero__status { font-size: 9.5px; top: 80px; }
+    }
+
+    /* corner ticks (technical frame) */
+    .hero__corner {
+      position: absolute;
+      width: 18px; height: 18px;
+      border: 1px solid var(--paper-40);
+      z-index: 2;
+    }
+    .hero__corner--tl { top: 24px; left: var(--gutter); border-right: 0; border-bottom: 0; }
+    .hero__corner--br { bottom: 24px; right: var(--gutter); border-left: 0; border-top: 0; }
+
+    /* hero content */
+    .hero__inner {
+      position: relative;
+      z-index: 3;
+      width: 100%;
+    }
+    .hero__eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--paper-60);
+      margin-bottom: 32px;
+    }
+    .hero__eyebrow::before {
+      content: '';
+      width: 28px; height: 1px;
+      background: var(--coral);
+    }
+    .hero__title {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: clamp(56px, 12vw, 168px);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      margin: 0 0 32px;
+    }
+    .hero__title-word {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(0.4em);
+      animation: wordIn 800ms cubic-bezier(0.2,0.7,0.2,1) forwards;
+    }
+    .hero__title-word:nth-child(1) { animation-delay: 120ms; }
+    .hero__title-word:nth-child(2) { animation-delay: 280ms; margin-left: 0.25em; }
+    .hero__title-word:nth-child(3) { animation-delay: 440ms; }
+    .hero__title-word:nth-child(4) { animation-delay: 600ms; }
+    .hero__title-word:nth-child(5) { animation-delay: 760ms; }
+    .hero__title-word:nth-child(6) { animation-delay: 920ms; }
+    @keyframes wordIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero__sub {
+      max-width: 640px;
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: clamp(18px, 2vw, 24px);
+      line-height: 1.4;
+      color: var(--paper-80);
+      margin: 0 0 40px;
+    }
+    .hero__sub em {
+      font-style: italic;
+      color: var(--coral);
+    }
+
+    .hero__meta {
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--paper-60);
+      padding-top: 28px;
+      border-top: 1px solid var(--paper-15);
+    }
+    .hero__meta strong {
+      color: var(--paper);
+      font-weight: 500;
+    }
+
+    @media (max-width: 768px) {
+      .hero__title { font-size: clamp(48px, 14vw, 96px); letter-spacing: -0.035em; }
+      .hero__meta { gap: 16px 28px; }
+    }
+
+    /* =========================================================
+       ABOUT
+       ========================================================= */
+    .about {
+      position: relative;
+      padding: clamp(80px, 12vh, 144px) 0;
+      border-top: var(--hairline) solid var(--rule);
+    }
+    .section-tag {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--muted);
+      margin-bottom: 56px;
+    }
+    .section-tag::before {
+      content: '';
+      width: 32px; height: 1px;
+      background: var(--ink);
+    }
+
+    .about__grid {
+      display: grid;
+      grid-template-columns: 5fr 7fr;
+      gap: clamp(40px, 6vw, 80px);
+      align-items: start;
+    }
+    .about__portrait {
+      position: relative;
+      aspect-ratio: 4 / 5;
+      background: var(--rule-soft);
+      overflow: hidden;
+    }
+    .about__portrait img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: grayscale(0.05) contrast(1.02);
+    }
+    .about__portrait-tag {
+      position: absolute;
+      left: 12px; bottom: 12px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--paper);
+      background: var(--ink);
+      padding: 5px 8px;
+    }
+
+    .about__lead {
+      font-family: var(--font-display);
+      font-size: clamp(24px, 2.6vw, 36px);
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+      font-weight: 400;
+      margin: 0 0 28px;
+    }
+    .about__body {
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--ink);
+      max-width: 60ch;
+      margin: 0 0 36px;
+    }
+    .about__tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 56px;
+    }
+    .chip {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 6px 10px;
+      border: 1px solid var(--rule);
+      color: var(--ink);
+    }
+    .chip--coral { color: var(--coral); border-color: var(--coral); }
+
+    /* stats */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+    }
+    .stat {
+      padding: 28px 20px 24px 0;
+      border-right: 1px solid var(--rule);
+    }
+    .stat:last-child { border-right: 0; padding-right: 0; }
+    .stat__num {
+      font-family: var(--font-display);
+      font-size: clamp(40px, 4.4vw, 64px);
+      line-height: 1;
+      font-weight: 500;
+      letter-spacing: -0.04em;
+      display: block;
+      margin-bottom: 8px;
+    }
+    .stat__num--coral { color: var(--coral); }
+    .stat__label {
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    /* services */
+    .services {
+      margin-top: 64px;
+    }
+    .services__title {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--muted);
+      margin: 0 0 24px;
+    }
+    .services__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-top: 1px solid var(--ink);
+      border-left: 1px solid var(--ink);
+    }
+    .service {
+      position: relative;
+      padding: 32px 28px 28px;
+      border-right: 1px solid var(--ink);
+      border-bottom: 1px solid var(--ink);
+      background: var(--paper);
+      transition: background var(--t-base);
+    }
+    .service:hover { background: var(--coral-tint); }
+    .service__index {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      margin-bottom: 24px;
+    }
+    .service__icon {
+      width: 28px; height: 28px;
+      margin-bottom: 20px;
+      color: var(--ink);
+      transition: color var(--t-base), transform var(--t-base);
+    }
+    .service:hover .service__icon {
+      color: var(--coral);
+      transform: translateY(-2px);
+    }
+    .service__name {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      margin: 0 0 8px;
+      transition: transform var(--t-base);
+    }
+    .service:hover .service__name { transform: translateX(2px); }
+    .service__desc {
+      font-size: 13.5px;
+      line-height: 1.55;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    @media (max-width: 1023px) {
+      .about__grid { grid-template-columns: 1fr; gap: 40px; }
+      .about__portrait { max-width: 360px; }
+    }
+    @media (max-width: 640px) {
+      .services__grid { grid-template-columns: 1fr; }
+      .stat { padding: 20px 16px 16px 0; }
+      .stat__num { font-size: 36px; }
+    }
+
+    /* =========================================================
+       RESUME
+       ========================================================= */
+    .resume {
+      padding: clamp(80px, 12vh, 144px) 0;
+      background: var(--paper);
+      border-top: var(--hairline) solid var(--rule);
+    }
+    .resume__head {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      gap: 24px;
+      margin-bottom: 80px;
+    }
+    .resume__head h2 {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 5vw, 64px);
+      font-weight: 500;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin: 0;
+    }
+    .resume__head-meta {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: right;
+    }
+    @media (max-width: 640px) {
+      .resume__head { grid-template-columns: 1fr; }
+      .resume__head-meta { text-align: left; }
+    }
+
+    /* timeline */
+    .timeline {
+      position: relative;
+      padding-left: 88px;
+    }
+    .timeline__rail {
+      position: absolute;
+      left: 56px;
+      top: 0; bottom: 0;
+      width: 1px;
+      background: var(--rule);
+    }
+    .timeline__year {
+      position: absolute;
+      left: 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 2;
+    }
+    .timeline__year-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      color: var(--ink);
+      background: var(--paper);
+      padding: 0 6px 0 0;
+    }
+    .timeline__year-dot {
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      position: absolute;
+      left: 49px;
+      background: var(--paper);
+      border: 1.5px solid var(--ink);
+    }
+    .timeline__year--active .timeline__year-dot {
+      background: var(--coral);
+      border-color: var(--coral);
+      box-shadow: 0 0 0 0 rgba(232, 98, 60, 0.5);
+      animation: dotPulse 2.6s ease-in-out infinite;
+    }
+    .timeline__year--active .timeline__year-label {
+      color: var(--coral);
+      font-weight: 500;
+    }
+    @keyframes dotPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(232, 98, 60, 0.5); }
+      50% { box-shadow: 0 0 0 8px rgba(232, 98, 60, 0); }
+    }
+
+    .role {
+      position: relative;
+      padding: 28px 32px 28px 32px;
+      margin-bottom: 56px;
+      border: 1px solid var(--rule);
+      background: var(--paper);
+      transition: opacity var(--t-base);
+    }
+    .role:last-child { margin-bottom: 0; }
+    .role--inactive { opacity: 0.35; }
+    .role--active {
+      opacity: 1;
+      border-left: 2px solid var(--coral);
+      z-index: 2;
+    }
+    .role__top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+      margin-bottom: 6px;
+    }
+    .role__company {
+      font-family: var(--font-display);
+      font-size: clamp(20px, 2vw, 26px);
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      margin: 0;
+    }
+    .role__dates {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .role__title {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ink);
+      margin: 0 0 16px;
+    }
+    .role__bullets {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .role__bullets li {
+      position: relative;
+      padding-left: 20px;
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .role__bullets li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--coral);
+      font-weight: 500;
+    }
+    .role__bullets li:last-child { margin-bottom: 0; }
+
+    @media (max-width: 768px) {
+      .timeline { padding-left: 56px; }
+      .timeline__rail { left: 24px; }
+      .timeline__year { left: 0; }
+      .timeline__year-dot { left: 17px; }
+      .role { padding: 22px 20px; }
+    }
+
+    /* skills */
+    .skills {
+      margin-top: 96px;
+    }
+    .skills__head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 32px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--ink);
+    }
+    .skills__head h3 {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      margin: 0;
+    }
+    .skills__head-meta {
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .skill {
+      display: grid;
+      grid-template-columns: 220px 1fr 48px;
+      align-items: center;
+      gap: 24px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--rule-soft);
+    }
+    .skill__name {
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .skill__track {
+      position: relative;
+      height: 4px;
+      background: var(--rule-soft);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .skill__fill {
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      background: var(--ink);
+      border-radius: 2px;
+      width: 0%;
+      transform-origin: left center;
+      transition: width 1.2s cubic-bezier(0.2, 0.7, 0.2, 1);
+    }
+    .skill__pct {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      text-align: right;
+      color: var(--ink);
+      font-variant-numeric: tabular-nums;
+    }
+
+    @media (max-width: 640px) {
+      .skill { grid-template-columns: 1fr 40px; row-gap: 8px; }
+      .skill__track { grid-column: 1 / -1; }
+    }
+
+    /* certs */
+    .certs {
+      margin-top: 96px;
+    }
+    .certs__head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 32px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--ink);
+    }
+    .certs__head h3 {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      margin: 0;
+    }
+    .certs__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .cert {
+      aspect-ratio: 4 / 5;
+      border: 1px solid var(--rule);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: var(--paper);
+      transition: transform var(--t-base), border-color var(--t-base);
+    }
+    .cert:hover {
+      transform: translateY(-4px);
+      border-color: var(--coral);
+    }
+    .cert__badge {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+    }
+    .cert__badge img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+    .cert--white .cert__badge {
+      background: #fff;
+      border: 1px solid var(--rule-soft);
+    }
+    .cert__name {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      margin: 0 0 4px;
+    }
+    .cert__issuer {
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    @media (max-width: 768px) {
+      .certs__grid { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+      .cert { padding: 14px; }
+    }
+    @media (max-width: 480px) {
+      .certs__grid { grid-template-columns: 1fr; }
+    }
+
+    /* education */
+    .education {
+      margin-top: 96px;
+      padding-top: 32px;
+      border-top: 1px solid var(--ink);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .edu {
+      padding: 0 24px;
+      border-right: 1px solid var(--rule);
+    }
+    .edu:first-child { padding-left: 0; }
+    .edu:last-child { border-right: 0; padding-right: 0; }
+    .edu__head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 6px;
+    }
+    .edu__school {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 500;
+      margin: 0;
+      letter-spacing: -0.01em;
+    }
+    .edu__year {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+    }
+    .edu__detail {
+      font-size: 13.5px;
+      color: var(--muted);
+      margin: 0;
+      line-height: 1.55;
+    }
+
+    @media (max-width: 640px) {
+      .education { grid-template-columns: 1fr; gap: 20px; }
+      .edu { padding: 0; border-right: 0; border-bottom: 1px solid var(--rule); padding-bottom: 20px; }
+      .edu:last-child { border-bottom: 0; padding-bottom: 0; }
+    }
+
+    /* =========================================================
+       CONTACT — forest band
+       ========================================================= */
+    .contact {
+      background: var(--forest);
+      color: var(--paper);
+      padding: clamp(96px, 14vh, 160px) 0 clamp(64px, 10vh, 120px);
+    }
+    .contact__head {
+      max-width: 720px;
+      margin-bottom: 64px;
+    }
+    .contact__eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--paper-60);
+      margin-bottom: 24px;
+    }
+    .contact__eyebrow::before {
+      content: '';
+      width: 28px; height: 1px;
+      background: var(--coral);
+    }
+    .contact h2 {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 5vw, 64px);
+      font-weight: 500;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      margin: 0 0 20px;
+    }
+    .contact__sub {
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--paper-60);
+      max-width: 56ch;
+      margin: 0;
+    }
+
+    .tiles {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border: 1px solid var(--paper-15);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 48px;
+    }
+    .tile {
+      position: relative;
+      padding: 28px 28px 24px;
+      border-right: 1px solid var(--paper-15);
+      background: transparent;
+      text-align: left;
+      width: 100%;
+      transition: background var(--t-fast);
+    }
+    .tile:last-child { border-right: 0; }
+    .tile:hover { background: rgba(244, 241, 234, 0.04); }
+    .tile__label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--paper-60);
+      display: block;
+      margin-bottom: 12px;
+    }
+    .tile__value {
+      font-family: var(--font-display);
+      font-size: clamp(18px, 1.6vw, 24px);
+      font-weight: 500;
+      color: var(--paper);
+      letter-spacing: -0.01em;
+      display: block;
+      margin-bottom: 12px;
+      word-break: break-word;
+    }
+    .tile__copy {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--paper-40);
+      letter-spacing: 0.04em;
+    }
+    .tile__chrome {
+      position: absolute;
+      top: 16px; right: 16px;
+      width: 32px; height: 32px;
+      background: var(--coral);
+    }
+
+    @media (max-width: 768px) {
+      .tiles { grid-template-columns: 1fr; }
+      .tile { border-right: 0; border-bottom: 1px solid var(--paper-15); }
+      .tile:last-child { border-bottom: 0; }
+    }
+
+    .contact__cta-row {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: -0.005em;
+      padding: 14px 24px;
+      border-radius: 999px;
+      transition: transform var(--t-fast), background var(--t-fast), color var(--t-fast);
+    }
+    .btn--primary {
+      background: var(--coral);
+      color: var(--paper);
+    }
+    .btn--primary:hover { transform: translateY(-1px); background: #d8552f; }
+    .btn--ghost {
+      background: transparent;
+      color: var(--paper);
+      border: 1px solid var(--paper-40);
+    }
+    .btn--ghost:hover { border-color: var(--paper); }
+
+    .socials {
+      display: flex;
+      gap: 12px;
+      margin-left: auto;
+    }
+    .socials a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px; height: 40px;
+      border: 1px solid var(--paper-15);
+      border-radius: 50%;
+      color: var(--paper-60);
+      transition: color var(--t-fast), border-color var(--t-fast);
+    }
+    .socials a:hover { color: var(--paper); border-color: var(--paper); }
+    .socials svg { width: 20px; height: 20px; }
+
+    @media (max-width: 640px) {
+      .socials { margin-left: 0; }
+    }
+
+    /* =========================================================
+       FOOTER
+       ========================================================= */
+    .footer {
+      background: var(--paper);
+      color: var(--ink);
+      border-top: var(--hairline) solid var(--rule);
+      padding: 32px 0;
+    }
+    .footer__inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      align-items: center;
+      gap: 16px;
+    }
+    .footer__copy {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+    .footer__note {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      text-align: center;
+    }
+    .footer__exit {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--muted);
+      text-align: right;
+      letter-spacing: 0.04em;
+    }
+    .footer__exit strong { color: var(--coral); font-weight: 500; }
+
+    @media (max-width: 640px) {
+      .footer__inner { grid-template-columns: 1fr; text-align: left; gap: 8px; }
+      .footer__note, .footer__exit { text-align: left; }
+    }
+
+    /* =========================================================
+       MOTION-READY: reveal scaffolding
+       (CSS owns static state; JS enhances in implementation phase)
+       ========================================================= */
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 700ms cubic-bezier(0.2, 0.7, 0.2, 1),
+                  transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1);
+    }
+    [data-reveal].is-in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    [data-reveal-stagger] > * {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 600ms cubic-bezier(0.2, 0.7, 0.2, 1),
+                  transform 600ms cubic-bezier(0.2, 0.7, 0.2, 1);
+    }
+    [data-reveal-stagger].is-in > *:nth-child(1) { transition-delay: 0ms; }
+    [data-reveal-stagger].is-in > *:nth-child(2) { transition-delay: 100ms; }
+    [data-reveal-stagger].is-in > *:nth-child(3) { transition-delay: 200ms; }
+    [data-reveal-stagger].is-in > *:nth-child(4) { transition-delay: 300ms; }
+    [data-reveal-stagger].is-in > *:nth-child(5) { transition-delay: 400ms; }
+    [data-reveal-stagger].is-in > *:nth-child(6) { transition-delay: 500ms; }
+    [data-reveal-stagger].is-in > * { opacity: 1; transform: translateY(0); }
+
+    /* =========================================================
+       REDUCED MOTION
+       ========================================================= */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+      }
+      .hero__title-word { opacity: 1; transform: none; }
+      .hero__layer { transform: none !important; }
+      [data-reveal], [data-reveal-stagger] > * { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SCROLL PROGRESS -->
+  <div class="scroll-progress" aria-hidden="true">
+    <div class="scroll-progress__fill" id="scrollFill"></div>
+  </div>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="wrap header__inner">
+      <a href="#top" class="header__brand" aria-label="Akash Nikhra — home">
+        <span class="header__mark" aria-hidden="true"></span>
+        <span>Akash&nbsp;Nikhra</span>
+      </a>
+      <nav class="header__nav" aria-label="Primary">
+        <a href="#about" class="nav__about">About</a>
+        <a href="#resume" class="nav__resume">Resume</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- HERO -->
+    <section class="hero" id="hero" aria-label="Introduction">
+      <div class="hero__layer hero__layer--bg" data-parallax="0.10" aria-hidden="true"></div>
+      <div class="hero__layer hero__layer--mid" data-parallax="0.22" aria-hidden="true"></div>
+      <div class="hero__layer hero__layer--fg" data-parallax="0.40" aria-hidden="true"></div>
+
+      <span class="hero__corner hero__corner--tl" aria-hidden="true"></span>
+      <span class="hero__corner hero__corner--br" aria-hidden="true"></span>
+
+      <div class="hero__status" aria-hidden="true">
+        <div><span class="hero__status-dot"></span><strong>SYS</strong>&nbsp;OK</div>
+        <div>LAT&nbsp;<strong>19.07°N</strong></div>
+        <div>LON&nbsp;<strong>72.87°E</strong></div>
+        <div>NODE&nbsp;<strong>AKASH_NIKHRA.exe</strong></div>
+      </div>
+
+      <div class="wrap hero__inner">
+        <div class="hero__eyebrow">Cybersecurity · GRC · Risk &amp; Resilience</div>
+
+        <h1 class="hero__title" aria-label="Akash Nikhra">
+          <span class="hero__title-word">Akash</span><span class="hero__title-word">Nikhra</span>
+        </h1>
+
+        <p class="hero__sub">
+          Cybersecurity analyst <em>specializing in</em> GRC, ISO 27001, and risk &amp; resilience for financial services.
+        </p>
+
+        <div class="hero__meta">
+          <div><strong>06+</strong>&nbsp;YEARS · GRC</div>
+          <div><strong>50+</strong>&nbsp;ASSESSMENTS LED</div>
+          <div><strong>03</strong>&nbsp;FRAMEWORKS AUTHORED</div>
+          <div><strong>MUMBAI</strong>&nbsp;IN</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="about" id="about">
+      <div class="wrap">
+        <div class="section-tag" data-reveal>01 · About</div>
+
+        <div class="about__grid">
+          <div class="about__portrait" data-reveal>
+            <img src="img/2.jpg" alt="Portrait of Akash Nikhra" />
+            <div class="about__portrait-tag">AN · 2026</div>
+          </div>
+
+          <div>
+            <p class="about__lead" data-reveal>
+              I build control systems that hold up under audit — and survive a real incident.
+            </p>
+            <p class="about__body" data-reveal>
+              Six years inside financial services and Big Four advisory, designing and operating the
+              governance, risk, and compliance programs that regulators, auditors, and customers expect.
+              ISO 27001 lead implementer; SOC 2 Type II readiness; NIST CSF maturity assessments;
+              VAPT programs tied back to MITRE ATT&amp;CK. I write the policy, evidence the control, and
+              sit in the room when the finding is debated.
+            </p>
+
+            <div class="about__tags" data-reveal>
+              <span class="chip">GRC</span>
+              <span class="chip">ISO 27001</span>
+              <span class="chip">SOC 2</span>
+              <span class="chip">NIST CSF</span>
+              <span class="chip">MITRE ATT&amp;CK</span>
+              <span class="chip">BFSI</span>
+            </div>
+
+            <div class="stats" data-reveal-stagger>
+              <div class="stat">
+                <span class="stat__num stat__num--coral"><span data-count="6">0</span>+</span>
+                <div class="stat__label">Years in GRC,<br/>BFSI &amp; advisory</div>
+              </div>
+              <div class="stat">
+                <span class="stat__num"><span data-count="50">0</span>+</span>
+                <div class="stat__label">Risk &amp; control<br/>assessments led</div>
+              </div>
+              <div class="stat">
+                <span class="stat__num"><span data-count="3">0</span></span>
+                <div class="stat__label">Frameworks<br/>authored end-to-end</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="services">
+          <h3 class="services__title" data-reveal>02 · Services</h3>
+          <div class="services__grid" data-reveal-stagger>
+            <div class="service">
+              <div class="service__index">01</div>
+              <svg class="service__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path d="M12 3l8 3v5c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-3z"/>
+                <path d="M9 12l2 2 4-4"/>
+              </svg>
+              <h4 class="service__name">Security Audits</h4>
+              <p class="service__desc">ISO 27001 internal audits, SOC 2 readiness, third-party assurance — designed to find the gap before the auditor does.</p>
+            </div>
+
+            <div class="service">
+              <div class="service__index">02</div>
+              <svg class="service__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <rect x="3" y="4" width="18" height="16" rx="1"/>
+                <path d="M3 9h18M7 14h10M7 17h6"/>
+              </svg>
+              <h4 class="service__name">Risk &amp; Compliance</h4>
+              <p class="service__desc">Risk register, control library, KRIs, and board-ready reporting. Map once, evidence continuously, refresh quarterly.</p>
+            </div>
+
+            <div class="service">
+              <div class="service__index">03</div>
+              <svg class="service__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <circle cx="11" cy="11" r="7"/>
+                <path d="M20 20l-4-4"/>
+                <path d="M11 8v6M8 11h6"/>
+              </svg>
+              <h4 class="service__name">Vulnerability Assessment</h4>
+              <p class="service__desc">VAPT programs tied to MITRE ATT&amp;CK and Cyber Kill Chain. Findings triaged by exploitability and business impact, not CVSS alone.</p>
+            </div>
+
+            <div class="service">
+              <div class="service__index">04</div>
+              <svg class="service__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                <path d="M5 3h10l4 4v14H5z"/>
+                <path d="M14 3v5h5M8 13h8M8 17h6"/>
+              </svg>
+              <h4 class="service__name">Framework Authoring</h4>
+              <p class="service__desc">Information security policy suites, control catalogs, and standard operating procedures built to be read, not shelved.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESUME -->
+    <section class="resume" id="resume">
+      <div class="wrap">
+        <div class="section-tag" data-reveal>03 · Resume</div>
+
+        <div class="resume__head">
+          <h2 data-reveal>Experience,<br/>certifications,<br/>education.</h2>
+          <div class="resume__head-meta" data-reveal>
+            06 yrs · 03 roles<br/>
+            03 certs · 01 degree
+          </div>
+        </div>
+
+        <div class="timeline" data-reveal>
+          <div class="timeline__rail" aria-hidden="true"></div>
+
+          <div class="timeline__year timeline__year--active" style="top: 28px;">
+            <span class="timeline__year-label">2024 · CURRENT</span>
+            <span class="timeline__year-dot" aria-hidden="true"></span>
+          </div>
+          <div class="timeline__year" style="top: 50%;">
+            <span class="timeline__year-label">2023</span>
+            <span class="timeline__year-dot" aria-hidden="true"></span>
+          </div>
+          <div class="timeline__year" style="bottom: 28px;">
+            <span class="timeline__year-label">2021</span>
+            <span class="timeline__year-dot" aria-hidden="true"></span>
+          </div>
+
+          <article class="role role--active" data-reveal>
+            <div class="role__top">
+              <h3 class="role__company">Moody's Corporation</h3>
+              <div class="role__dates">2024 — Current</div>
+            </div>
+            <p class="role__title">Senior Control Analyst, Corporate Risk &amp; Resilience</p>
+            <ul class="role__bullets">
+              <li>Lead design and continuous-evidence operation of the corporate ISMS aligned to ISO 27001:2022 and NIST CSF 2.0.</li>
+              <li>Own SOC 2 Type II control mapping across 14 service lines; partner with engineering on remediation and auditor walkthroughs.</li>
+              <li>Authored the firm's third-party risk assessment framework adopted by procurement, legal, and infosec.</li>
+              <li>Run quarterly KRIs to the Risk Committee; partnered with the CISO office on incident response exercises and post-incident reviews.</li>
+            </ul>
+          </article>
+
+          <article class="role role--inactive" data-reveal>
+            <div class="role__top">
+              <h3 class="role__company">EY India</h3>
+              <div class="role__dates">May 2023 — Jan 2024</div>
+            </div>
+            <p class="role__title">Manager, Cybersecurity (Advisory)</p>
+            <ul class="role__bullets">
+              <li>Managed delivery of ISO 27001 implementation, SOC 2 readiness, and NIST CSF maturity engagements for BFSI clients.</li>
+              <li>Coached a team of 6 consultants across 4 concurrent engagements; reviewed working papers before client and partner sign-off.</li>
+              <li>Drafted the India practice's VAPT methodology tying findings to MITRE ATT&amp;CK techniques and business-impact narratives.</li>
+            </ul>
+          </article>
+
+          <article class="role role--inactive" data-reveal>
+            <div class="role__top">
+              <h3 class="role__company">Moody's Corporation</h3>
+              <div class="role__dates">Dec 2021 — May 2023</div>
+            </div>
+            <p class="role__title">Analyst, Information Security (GRC)</p>
+            <ul class="role__bullets">
+              <li>Built the first control-evidence repository for the Corporate Services business unit; cut audit request turnaround by ~40%.</li>
+              <li>Authored the global acceptable-use, access review, and vendor risk policies; rolled out across 12 countries.</li>
+              <li>Supported BCDR and resilience testing for the firm's critical-data product lines alongside the business continuity team.</li>
+            </ul>
+          </article>
+        </div>
+
+        <!-- SKILLS -->
+        <div class="skills" data-reveal>
+          <div class="skills__head">
+            <h3>Capability profile</h3>
+            <span class="skills__head-meta">05 competencies · self-assessed, 2026</span>
+          </div>
+          <div data-reveal-stagger>
+            <div class="skill">
+              <div class="skill__name">ISO 27001 Lead Implementer</div>
+              <div class="skill__track"><div class="skill__fill" style="width: 95%"></div></div>
+              <div class="skill__pct">95%</div>
+            </div>
+            <div class="skill">
+              <div class="skill__name">NIST CSF Maturity</div>
+              <div class="skill__track"><div class="skill__fill" style="width: 92%"></div></div>
+              <div class="skill__pct">92%</div>
+            </div>
+            <div class="skill">
+              <div class="skill__name">SOC 2 Type II Readiness</div>
+              <div class="skill__track"><div class="skill__fill" style="width: 88%"></div></div>
+              <div class="skill__pct">88%</div>
+            </div>
+            <div class="skill">
+              <div class="skill__name">VAPT (Vulnerability Assessment &amp; Pen Test)</div>
+              <div class="skill__track"><div class="skill__fill" style="width: 85%"></div></div>
+              <div class="skill__pct">85%</div>
+            </div>
+            <div class="skill">
+              <div class="skill__name">Cyber Kill Chain + MITRE ATT&amp;CK</div>
+              <div class="skill__track"><div class="skill__fill" style="width: 80%"></div></div>
+              <div class="skill__pct">80%</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CERTS -->
+        <div class="certs" data-reveal>
+          <div class="certs__head">
+            <h3>Certifications</h3>
+            <span class="certs__head-meta">03 active</span>
+          </div>
+          <div class="certs__grid">
+            <div class="cert" data-reveal>
+              <div class="cert__badge"><img src="img/ISO-27001-Badge.png" alt="ISO 27001 Lead Implementer badge" /></div>
+              <div>
+                <p class="cert__name">ISO 27001 Lead Implementer</p>
+                <p class="cert__issuer">BSI · 2024</p>
+              </div>
+            </div>
+            <div class="cert cert--white" data-reveal>
+              <div class="cert__badge"><img src="img/CC.png" alt="ISC2 Certified in Cybersecurity badge" /></div>
+              <div>
+                <p class="cert__name">Certified in Cybersecurity (CC)</p>
+                <p class="cert__issuer">ISC2 · 2022</p>
+              </div>
+            </div>
+            <div class="cert" data-reveal>
+              <div class="cert__badge"><img src="img/CEH.png" alt="Certified Ethical Hacker badge" /></div>
+              <div>
+                <p class="cert__name">Certified Ethical Hacker (CEH)</p>
+                <p class="cert__issuer">EC-Council · 2023</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- EDUCATION -->
+        <div class="education" data-reveal>
+          <div class="edu">
+            <div class="edu__head">
+              <h3 class="edu__school">VIT University</h3>
+              <span class="edu__year">2021</span>
+            </div>
+            <p class="edu__detail">B.Tech, Computer Science — Cybersecurity. Capstone on ISO 27001 control mapping for a regional BFSI cooperative.</p>
+          </div>
+          <div class="edu">
+            <div class="edu__head">
+              <h3 class="edu__school">Continuous</h3>
+              <span class="edu__year">Ongoing</span>
+            </div>
+            <p class="edu__detail">Active in the ISC2 Mumbai chapter; ongoing reading in cloud-control assurance (CCM v4), ISO 42001 AI management, and resilience engineering.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact" id="contact">
+      <div class="wrap">
+        <div class="contact__head">
+          <div class="contact__eyebrow">04 · Contact</div>
+          <h2 data-reveal>Open to senior GRC, risk, and resilience roles — Mumbai, remote, or hybrid.</h2>
+          <p class="contact__sub" data-reveal>
+            The fastest way to reach me is email. For roles, advisory, or a conversation about
+            how to make a control program actually hold up — say hello.
+          </p>
+        </div>
+
+        <div class="tiles" data-reveal-stagger>
+          <button class="tile" type="button" data-copy="akash.nikhra@example.com" aria-label="Copy email address">
+            <span class="tile__chrome" aria-hidden="true"></span>
+            <span class="tile__label">Email</span>
+            <span class="tile__value">akash.nikhra<br/>@example.com</span>
+            <span class="tile__copy">Click to copy</span>
+          </button>
+
+          <button class="tile" type="button" data-copy="+91 99999 99999" aria-label="Copy phone number">
+            <span class="tile__chrome" aria-hidden="true"></span>
+            <span class="tile__label">Phone</span>
+            <span class="tile__value">+91 99999 99999</span>
+            <span class="tile__copy">Click to copy</span>
+          </button>
+
+          <button class="tile" type="button" data-copy="Mumbai, India" aria-label="Copy location">
+            <span class="tile__chrome" aria-hidden="true"></span>
+            <span class="tile__label">Location</span>
+            <span class="tile__value">Mumbai, India</span>
+            <span class="tile__copy">IST · UTC+5:30</span>
+          </button>
+        </div>
+
+        <div class="contact__cta-row" data-reveal>
+          <a class="btn btn--primary" href="mailto:akash.nikhra@example.com">
+            Get in touch <span aria-hidden="true">→</span>
+          </a>
+          <a class="btn btn--ghost" href="#" rel="noopener" aria-label="Open LinkedIn profile (new tab)">
+            LinkedIn
+          </a>
+
+          <div class="socials" aria-label="Social links">
+            <a href="#" aria-label="GitHub">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55 0-.27-.01-1-.02-1.96-3.2.69-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.18 1.18.92-.26 1.91-.39 2.89-.39.98 0 1.97.13 2.89.39 2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.24 2.76.12 3.05.74.81 1.18 1.84 1.18 3.1 0 4.43-2.69 5.41-5.25 5.69.41.36.78 1.05.78 2.12 0 1.53-.01 2.77-.01 3.14 0 .31.21.67.8.55C20.21 21.38 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/>
+              </svg>
+            </a>
+            <a href="#" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.22 8.02h4.55V23H.22V8.02zM8.22 8.02h4.36v2.05h.06c.61-1.15 2.1-2.36 4.32-2.36 4.62 0 5.48 3.04 5.48 7v8.29h-4.55v-7.36c0-1.76-.03-4.02-2.45-4.02-2.45 0-2.83 1.91-2.83 3.89V23H8.22V8.02z"/>
+              </svg>
+            </a>
+            <a href="mailto:akash.nikhra@example.com" aria-label="Email">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                <rect x="2.5" y="5" width="19" height="14" rx="1"/>
+                <path d="M3 6l9 7 9-7"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="wrap footer__inner">
+      <div class="footer__copy">© 2026 Akash Nikhra · Mumbai, IN</div>
+      <div class="footer__note">Built with vanilla HTML, CSS, JS · v3</div>
+      <div class="footer__exit"><strong>//</strong>&nbsp;process.exit(0)</div>
+    </div>
+  </footer>
+
+  <!--
+    The implementation phase layers motion.dev v12.40.0 (ESM) on top of this markup.
+    Hook surface:
+      - .hero__layer--bg / .mid / .fg   →  scroll(y).animate(y) at 0.10 / 0.22 / 0.40
+      - [data-reveal]                    →  inView(el, () => el.classList.add('is-in'))
+      - [data-reveal-stagger]            →  same, children inherit
+      - .role--active / --inactive       →  inView toggles class as center crosses
+      - .skill__fill style="width:X%"    →  inView(0, () => animate width 0 → X%)
+      - [data-count]                     →  inView(0, () => tween numeric to target)
+      - .tile button[data-copy]          →  on click, swap .tile__copy to "Copied ✓"
+      - #scrollFill                      →  scroll(y).animate(scaleX, [0, 1])
+      - .hero__title-word                →  stagger-in is already CSS-driven
+  -->
+</body>
+</html>

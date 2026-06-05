@@ -2,394 +2,340 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Akash Nikhra — Cybersecurity Professional</title>
-  <meta name="description" content="Senior Control Analyst at Moody's, ex-Manager at EY. ISO 27001 Lead Implementer, NIST CSF, SOC 2. Six years hardening enterprise security for Fortune 500 clients." />
-  <meta name="author" content="Akash Nikhra" />
-  <meta name="theme-color" content="#0E3B2E" />
-  <link rel="icon" type="image/x-icon" href="favicon.ico" />
-
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Akash Nikhra — Cybersecurity</title>
+  <meta name="description" content="Senior cybersecurity analyst at Moody's, ex-EY. GRC, ISO 27001, risk and resilience for financial services." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" />
-
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
-  <!-- ============================================================
-       Header
-       ============================================================ -->
-  <header class="site-header" role="banner">
-    <div class="container site-header__inner">
-      <a href="#hero" class="brand" aria-label="Akash Nikhra — home">AN</a>
-      <nav class="nav" aria-label="Primary">
-        <a href="#about" class="nav__link">About</a>
-        <a href="#resume" class="nav__link">Resume</a>
-        <a href="#contact" class="nav__link">Contact</a>
-      </nav>
-      <div class="header-cta">
-        <a href="Akash_Nikhra_Resume.pdf" target="_blank" rel="noopener" class="btn btn--ghost">Download CV</a>
+<header class="header">
+  <div class="grid">
+    <a href="#" class="logo" aria-label="Akash Nikhra home">AN</a>
+    <nav class="nav" aria-label="Primary">
+      <a href="#about">About</a>
+      <a href="#resume">Resume</a>
+      <a href="#contact">Contact</a>
+      <a href="Akash_Nikhra_Resume.pdf" class="btn btn--primary" download>
+        Download CV
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero__bg" aria-hidden="true"></div>
+  <div class="hero__vignette" aria-hidden="true"></div>
+  <div class="grid hero__grid">
+    <div>
+      <span class="chip">
+        <span class="chip__dot" aria-hidden="true"></span>
+        Available for new roles
+      </span>
+      <h1 aria-label="Akash Nikhra">
+        <span class="word"><span>AKASH</span></span>
+        <span class="word"><span>NIKHRA</span></span>
+      </h1>
+      <p class="hero__sub">
+        Cybersecurity analyst <em>specializing in</em> GRC, ISO 27001, and risk &amp; resilience for financial services.
+      </p>
+      <p class="hero__tag">
+        Six years hardening enterprise controls at Moody's and EY. I turn the gap between the framework and the field into something the auditor can actually close.
+      </p>
+      <div class="hero__ctas">
+        <a href="Akash_Nikhra_Resume.pdf" class="btn btn--primary" download>
+          Download CV
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+        </a>
+        <a href="#about" class="btn btn--ghost-light">Read more</a>
       </div>
     </div>
-  </header>
+  </div>
+  <div class="scroll-cue" aria-hidden="true">SCROLL</div>
+</section>
 
-  <main>
+<section id="about" class="section section--paper">
+  <div class="grid">
+    <p class="eyebrow">About</p>
+    <h2 class="section-title">Auditing the <em>seams</em> where the framework meets reality.</h2>
 
-    <!-- ============================================================
-         Hero
-         ============================================================ -->
-    <section id="hero" class="hero" aria-label="Introduction">
-      <div class="hero__layer hero__bg" aria-hidden="true">
-        <img src="img/main_bg.png" alt="" />
-      </div>
-      <div class="hero__layer hero__mg" aria-hidden="true">
-        <img src="img/bigsection1.jpg" alt="" />
-      </div>
-      <div class="hero__layer hero__fg" aria-hidden="true">
-        <img src="img/2.jpg" alt="" />
+    <div class="about__layout">
+      <div class="portrait">
+        <img src="img/2.jpg" alt="Akash Nikhra" />
+        <span class="portrait__tag">Akash · GRC</span>
       </div>
 
-      <div class="hero__content">
-        <span class="hero__eyebrow">Cybersecurity · Delhi-NCR</span>
-
-        <h1 class="hero__name">Akash Nikhra</h1>
-
-        <p class="hero__subtitle" data-rotate aria-live="polite">
-          <span>Secure <em>Your Business</em></span>
-          <span aria-hidden="true">Empower <em>Your Team</em></span>
-          <span aria-hidden="true">Advance <em>Your Career</em></span>
+      <div>
+        <p class="bio">
+          Control analyst at Moody's Corporation working on corporate risk and resilience, focused on the seam where audit, security, and the business actually meet. Previously a cybersecurity manager at EY, where I ran maturity assessments, led ISO 27001 implementations, and built frameworks for clients who didn't have one. I write about control testing, evidence quality, and the strange gap between what the standard asks for and what a real organization can produce under deadline.
         </p>
 
-        <p class="hero__lead">Six years hardening enterprise security for Moody's and EY. ISO 27001 lead. NIST CSF practitioner.</p>
-
-        <div class="hero__ctas">
-          <a href="Akash_Nikhra_Resume.pdf" target="_blank" rel="noopener" class="btn btn--primary">Download CV</a>
-          <a href="#contact" class="btn btn--secondary">Get in touch <span class="btn__arrow" aria-hidden="true">&rarr;</span></a>
-        </div>
-
-        <div class="hero__console" role="group" aria-label="Availability and capabilities">
-          <span class="chip chip--available">Available</span>
-          <span class="chip">ISO 27001:2022</span>
-          <span class="chip">NIST CSF</span>
-          <span class="chip">SOC 2</span>
-          <span class="chip">VAPT</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================
-         About
-         ============================================================ -->
-    <section id="about" class="section section--paper about" aria-labelledby="about-h">
-      <div class="container">
-        <div class="about__header section__header">
-          <span class="eyebrow">About</span>
-          <h2 id="about-h">A practitioner, not a theorist.</h2>
-        </div>
-
-        <div class="about__grid">
-          <div class="about__copy">
-            <p class="lead">Cyber Security Professional with more than 6 years of experience, has completed his MBA in IT Business Management Specialization Information Security from Symbiosis International University.</p>
-            <p>Working as Senior Controls Analyst with experience in Information Risk Management, Cyber Security assessments, IT Audits, Technology Risk and Compliance and General IT Controls Testing (ITGC). Well-versed in NIST Cybersecurity Framework and have expertise in areas such as Network Security, Security Incidents Management, Cybersecurity Operations, Endpoint Security, Remote access management, Configuration Management, etc.</p>
-            <p>During my career, gained proficiency in conducting in-depth reviews and risk assessments and selecting appropriate risk mitigation strategies. Experienced in making high-stakes decisions, resolving complex security issues, and providing advisory services. Strong knowledge of NIST SP 800-53, NIST CSF, NIST Ransomware framework, MITRE ATT&amp;CK, Cyber Kill Chain, Vulnerability Management, VAPT, and CIS Benchmarks.</p>
-
-            <ul class="about__meta">
-              <li>Age <strong>33</strong></li>
-              <li>Residence <strong>India</strong></li>
-              <li>Address <strong>Delhi-NCR</strong></li>
-              <li>Email <strong>akashnikhra@gmail.com</strong></li>
-              <li>Phone <strong>+91 8989444103</strong></li>
-            </ul>
-          </div>
-
-          <div class="about__photo" aria-hidden="true">
-            <img src="img/2.jpg" alt="" loading="lazy" decoding="async" />
-          </div>
-        </div>
-
-        <div class="about__stats">
+        <div class="stats">
           <div class="stat">
-            <span class="stat__num" data-count="6" data-suffix="+">6+</span>
-            <span class="stat__label">years hardening enterprise security</span>
+            <span class="stat__num">6<em>+</em></span>
+            <span class="stat__label">Years in GRC</span>
           </div>
           <div class="stat">
-            <span class="stat__num" data-count="50" data-suffix="+">50+</span>
-            <span class="stat__label">audits &amp; assessments led</span>
+            <span class="stat__num">50<em>+</em></span>
+            <span class="stat__label">Assessments led</span>
           </div>
           <div class="stat">
-            <span class="stat__num" data-count="3">3</span>
-            <span class="stat__label">frameworks authored</span>
+            <span class="stat__num">3</span>
+            <span class="stat__label">Frameworks authored</span>
           </div>
-        </div>
-
-        <div class="services__header section__header">
-          <span class="eyebrow">Services</span>
-          <h2>What I do.</h2>
         </div>
 
         <div class="services">
-          <article class="service" tabindex="0">
-            <div class="service__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l8 3.5v6c0 4.5-3.2 8.4-8 9.5-4.8-1.1-8-5-8-9.5v-6l8-3.5z"/><path d="M9 12.5l2 2 4-4"/></svg>
-            </div>
-            <h3>Gap Assessments</h3>
-            <p>Comprehensive assessments against ISO 27001, NIST CSF, and SOC 2. Identify gaps, prioritize remediation, and get you audit-ready with actionable recommendations.</p>
-          </article>
-
-          <article class="service" tabindex="0">
-            <div class="service__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4.5" width="12" height="10" rx="1"/><path d="M2.5 8.5h12"/><path d="M6.5 6.5h.01M9.5 6.5h.01"/><path d="M16.5 14.5l3 3M19.5 14.5l-3 3"/></svg>
-            </div>
-            <h3>Security Training</h3>
-            <p>Customized programs on ISO 27001, NIST CSF, and SOC 2 compliance. Practical examples from real-world scenarios that equip your team to handle emerging threats.</p>
-          </article>
-
-          <article class="service" tabindex="0">
-            <div class="service__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 3.5l4 4-11 11-4.5 1 1-4.5 10.5-11.5z"/><path d="M14 6l4 4"/></svg>
-            </div>
-            <h3>Advisory Services</h3>
-            <p>Strategic advisory tailored to your security and business goals. From designing resilient IT infrastructures to enhancing compliance and risk practices.</p>
-          </article>
-
-          <article class="service" tabindex="0">
-            <div class="service__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V5l7-2v18"/><path d="M5 21h14l-3-7 3-7H12"/></svg>
-            </div>
-            <h3>Resume &amp; Interview Prep</h3>
-            <p>Personalized support for impactful resumes and sharper interview skills. Stand out to employers whether you're starting out or moving into leadership.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================
-         Resume
-         ============================================================ -->
-    <section id="resume" class="section section--paper resume" aria-labelledby="resume-h">
-      <div class="container">
-        <div class="resume__header section__header">
-          <span class="eyebrow">Experience × Education × Credentials</span>
-          <h2 id="resume-h">Resume.</h2>
-        </div>
-
-        <!-- Education -->
-        <div class="resume__subheader">
-          <span class="eyebrow">Education</span>
-        </div>
-        <div class="education">
-          <article class="edu-card">
-            <span class="edu-card__year">2018</span>
-            <h3>Symbiosis International (Deemed University)</h3>
-            <p>Masters in Business Administration, IT Business Management specialization in Information Security.</p>
-          </article>
-          <article class="edu-card">
-            <span class="edu-card__year">2014</span>
-            <h3>Rajiv Gandhi Proudyogiki Vishwavidyalaya</h3>
-            <p>Bachelor of Engineering, Computer Science &amp; Technology.</p>
-          </article>
-        </div>
-
-        <!-- Experience: scroll-pinned -->
-        <div class="pin-stage" aria-label="Professional experience timeline">
-          <div class="pin-stage__content">
-            <div class="pin-stage__eyebrow eyebrow">Experience</div>
-            <div class="roles">
-              <article class="role role--active" data-idx="0">
-                <div class="role__head">
-                  <div class="role__meta">
-                    <span class="role__dates">2024 — Current</span>
-                    <h3>Senior Control Analyst — Corporate, Risk &amp; Resilience</h3>
-                    <span class="role__company">Moody's Corporation</span>
-                  </div>
-                </div>
-                <div class="role__body">
-                  <p>Played a pivotal role in achieving ISO 27001:2022 certification by managing evidence gathering, planning, and conducting internal audits. Conducted NIST CSF maturity assessments across various domains and aligned the framework's requirements with ISO 27001:2022 standards, ensuring a cohesive and robust cybersecurity posture. Collaborated with stakeholders to enhance audit readiness, streamline processes, and ensure regulatory compliance.</p>
-                </div>
-              </article>
-
-              <article class="role role--inactive" data-idx="1">
-                <div class="role__head">
-                  <div class="role__meta">
-                    <span class="role__dates">May 2023 — Jan 2024</span>
-                    <h3>Manager — Cybersecurity</h3>
-                    <span class="role__company">EY India</span>
-                  </div>
-                </div>
-                <div class="role__body">
-                  <p>Led the implementation of ISO 27001:2022 and ISO 22301 for one of India's largest telecom giants, managing a team of 20 consultants, senior consultants, and managers. Supported the client in multiple external and regulatory audits, ensuring compliance, enhancing cybersecurity measures, and strengthening business continuity and resilience through strategic planning and effective execution of global standards.</p>
-                </div>
-              </article>
-
-              <article class="role role--inactive" data-idx="2">
-                <div class="role__head">
-                  <div class="role__meta">
-                    <span class="role__dates">Dec 2021 — May 2023</span>
-                    <h3>Senior Control Analyst — Audit, Risk &amp; Compliance</h3>
-                    <span class="role__company">Moody's Corporation</span>
-                  </div>
-                </div>
-                <div class="role__body">
-                  <p>Conducted technology risk assessments and IT general controls testing across business units. Supported ISO 27001 ISMS maintenance and contributed to internal audit programs aligned with global standards.</p>
-                </div>
-              </article>
-            </div>
+          <div class="service">
+            <span class="service__idx">01</span>
+            <span class="service__icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><path d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9c2.49 0 4.74 1.01 6.36 2.64"/></svg>
+            </span>
+            <h3 class="service__title">Security audits</h3>
+            <p class="service__desc">End-to-end ISO 27001, SOC 2, and NIST CSF audits — gap analysis through to certification.</p>
+          </div>
+          <div class="service">
+            <span class="service__idx">02</span>
+            <span class="service__icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </span>
+            <h3 class="service__title">Risk &amp; compliance</h3>
+            <p class="service__desc">Risk registers, control libraries, and the evidence pipelines that keep both alive.</p>
+          </div>
+          <div class="service">
+            <span class="service__idx">03</span>
+            <span class="service__icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            </span>
+            <h3 class="service__title">Vulnerability assessment</h3>
+            <p class="service__desc">VAPT engagements that produce findings engineering will actually act on.</p>
+          </div>
+          <div class="service">
+            <span class="service__idx">04</span>
+            <span class="service__icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>
+            </span>
+            <h3 class="service__title">Framework authoring</h3>
+            <p class="service__desc">Custom ISMS, control matrices, and policy stacks for orgs starting from zero.</p>
           </div>
         </div>
-
-        <!-- Skills -->
-        <div class="resume__subheader">
-          <span class="eyebrow">Skills</span>
-        </div>
-        <div class="skills">
-          <div class="skill" data-percent="95">
-            <span class="skill__label">ISO 27001 Lead Implementer</span>
-            <span class="skill__num">95%</span>
-            <div class="skill__bar"><div class="skill__bar-fill" style="width: 95%"></div></div>
-          </div>
-          <div class="skill" data-percent="92">
-            <span class="skill__label">NIST CSF Maturity Assessment</span>
-            <span class="skill__num">92%</span>
-            <div class="skill__bar"><div class="skill__bar-fill" style="width: 92%"></div></div>
-          </div>
-          <div class="skill" data-percent="88">
-            <span class="skill__label">SOC 2 Type II Readiness</span>
-            <span class="skill__num">88%</span>
-            <div class="skill__bar"><div class="skill__bar-fill" style="width: 88%"></div></div>
-          </div>
-          <div class="skill" data-percent="85">
-            <span class="skill__label">Vulnerability Assessment &amp; Penetration Testing</span>
-            <span class="skill__num">85%</span>
-            <div class="skill__bar"><div class="skill__bar-fill" style="width: 85%"></div></div>
-          </div>
-          <div class="skill" data-percent="80">
-            <span class="skill__label">Cyber Kill Chain / MITRE ATT&amp;CK</span>
-            <span class="skill__num">80%</span>
-            <div class="skill__bar"><div class="skill__bar-fill" style="width: 80%"></div></div>
-          </div>
-        </div>
-
-        <!-- Certificates -->
-        <div class="resume__subheader">
-          <span class="eyebrow">Certificates</span>
-        </div>
-        <div class="certs">
-          <article class="cert" tabindex="0">
-            <div class="cert__badge">
-              <img src="img/CEH.png" alt="Certified Ethical Hacker badge" loading="lazy" />
-            </div>
-            <h3>Certified Ethical Hacker (CEH)</h3>
-            <p class="cert__issuer">EC-Council</p>
-            <div class="cert__chips">
-              <span class="chip">Penetration Testing</span>
-              <span class="chip">Footprinting</span>
-            </div>
-          </article>
-
-          <article class="cert" tabindex="0">
-            <div class="cert__badge cert__badge--cc">
-              <img src="img/CC.png" alt="ISC2 CC badge" loading="lazy" />
-            </div>
-            <h3>ISC2 Certified in Cybersecurity (CC)</h3>
-            <p class="cert__issuer">ISC2</p>
-            <div class="cert__chips">
-              <span class="chip">Security Principles</span>
-              <span class="chip">Risk Management</span>
-            </div>
-          </article>
-
-          <article class="cert" tabindex="0">
-            <div class="cert__badge">
-              <img src="img/ISO-27001-Badge.png" alt="ISO 27001 Lead Implementer badge" loading="lazy" />
-            </div>
-            <h3>ISO 27001 Lead Implementer</h3>
-            <p class="cert__issuer">PECB</p>
-            <div class="cert__chips">
-              <span class="chip">ISMS</span>
-              <span class="chip">Audit</span>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================
-         Contact
-         ============================================================ -->
-    <section id="contact" class="section section--paper contact" aria-labelledby="contact-h">
-      <div class="contact__backdrop" aria-hidden="true"></div>
-      <div class="container">
-        <div class="contact__header section__header">
-          <span class="eyebrow">Contact</span>
-          <h2 id="contact-h" class="contact__headline">Let's talk<em>.</em></h2>
-          <p class="lead contact__subhead">Open to senior control analyst, manager, and advisory engagements.</p>
-        </div>
-
-        <div class="tiles">
-          <button class="tile" data-copy="+918989444103" type="button">
-            <div class="tile__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4.5l3.5 1 1.5 4-2 1.5a13 13 0 0 0 6 6l1.5-2 4 1.5 1 3.5a2 2 0 0 1-2 2A15 15 0 0 1 3 6.5a2 2 0 0 1 2-2z"/></svg>
-            </div>
-            <span class="tile__label">Phone</span>
-            <span class="tile__value">+91 8989444103</span>
-            <span class="tile__hint">Click to copy</span>
-          </button>
-
-          <button class="tile" data-copy="akashnikhra@gmail.com" type="button">
-            <div class="tile__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
-            </div>
-            <span class="tile__label">Email</span>
-            <span class="tile__value">akashnikhra@gmail.com</span>
-            <span class="tile__hint">Click to copy</span>
-          </button>
-
-          <a class="tile" href="https://maps.google.com/?q=Delhi-NCR" target="_blank" rel="noopener">
-            <div class="tile__icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-7-7-12a7 7 0 1 1 14 0c0 5-7 12-7 12z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
-            </div>
-            <span class="tile__label">Location</span>
-            <span class="tile__value">Delhi-NCR, India</span>
-            <span class="tile__hint">Open in Maps</span>
-          </a>
-        </div>
-
-        <div class="contact__ctas">
-          <a href="mailto:akashnikhra@gmail.com?subject=Schedule%20a%20call" class="btn btn--primary">Schedule a call</a>
-          <a href="https://www.linkedin.com/in/akash-nikhra-a6310a71/" target="_blank" rel="noopener" class="btn btn--secondary">View LinkedIn <span class="btn__arrow" aria-hidden="true">&rarr;</span></a>
-        </div>
-
-        <div class="contact__socials">
-          <a class="social" href="https://www.linkedin.com/in/akash-nikhra-a6310a71/" target="_blank" rel="noopener" aria-label="LinkedIn">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V24h-4V8zm7.5 0h3.84v2.18h.05c.53-1 1.84-2.18 3.78-2.18 4.05 0 4.8 2.66 4.8 6.13V24h-4v-7.07c0-1.69-.03-3.86-2.36-3.86-2.36 0-2.72 1.84-2.72 3.74V24h-4V8z"/></svg>
-          </a>
-          <a class="social" href="https://www.facebook.com/akash.nikhra/" target="_blank" rel="noopener" aria-label="Facebook">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.68 0H1.32C.59 0 0 .59 0 1.32v21.36C0 23.41.59 24 1.32 24h11.5v-9.3H9.69v-3.62h3.13V8.41c0-3.1 1.89-4.79 4.66-4.79 1.32 0 2.46.1 2.79.14v3.24h-1.92c-1.5 0-1.79.71-1.79 1.76v2.31h3.59l-.47 3.62h-3.12V24h6.12c.73 0 1.32-.59 1.32-1.32V1.32C24 .59 23.41 0 22.68 0z"/></svg>
-          </a>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <!-- ============================================================
-       Footer
-       ============================================================ -->
-  <footer class="site-footer" role="contentinfo">
-    <div class="container site-footer__inner">
-      <p class="site-footer__copy">© 2024 Akash Nikhra. All rights reserved.</p>
-      <div class="site-footer__socials">
-        <a class="social" href="https://www.linkedin.com/in/akash-nikhra-a6310a71/" target="_blank" rel="noopener" aria-label="LinkedIn">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V24h-4V8zm7.5 0h3.84v2.18h.05c.53-1 1.84-2.18 3.78-2.18 4.05 0 4.8 2.66 4.8 6.13V24h-4v-7.07c0-1.69-.03-3.86-2.36-3.86-2.36 0-2.72 1.84-2.72 3.74V24h-4V8z"/></svg>
-        </a>
-        <a class="social" href="https://www.facebook.com/akash.nikhra/" target="_blank" rel="noopener" aria-label="Facebook">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.68 0H1.32C.59 0 0 .59 0 1.32v21.36C0 23.41.59 24 1.32 24h11.5v-9.3H9.69v-3.62h3.13V8.41c0-3.1 1.89-4.79 4.66-4.79 1.32 0 2.46.1 2.79.14v3.24h-1.92c-1.5 0-1.79.71-1.79 1.76v2.31h3.59l-.47 3.62h-3.12V24h6.12c.73 0 1.32-.59 1.32-1.32V1.32C24 .59 23.41 0 22.68 0z"/></svg>
-        </a>
       </div>
     </div>
-  </footer>
+  </div>
+</section>
 
-  <script type="module" src="motion.js"></script>
+<section id="resume" class="section section--paper section--bordered">
+  <div class="grid">
+    <p class="eyebrow">Resume</p>
+    <h2 class="section-title">Evidence, not adjectives.</h2>
+
+    <div class="resume__block">
+      <p class="eyebrow">Education</p>
+      <div class="edu">
+        <div class="edu__item">
+          <div>
+            <h4 class="edu__title">B.Tech, Computer Science (Cybersecurity)</h4>
+            <p class="edu__inst">Vellore Institute of Technology</p>
+          </div>
+          <span class="edu__year">2017 — 2021</span>
+        </div>
+        <div class="edu__item">
+          <div>
+            <h4 class="edu__title">ISO 27001 Lead Implementer</h4>
+            <p class="edu__inst">BSI</p>
+          </div>
+          <span class="edu__year">2024</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="resume__block">
+      <p class="eyebrow">Experience</p>
+      <div class="exp">
+        <div class="exp__rail" aria-hidden="true"></div>
+
+        <div class="exp__year-marker exp__year-marker--active" style="top: 28px;"><span class="label">2024</span></div>
+        <div class="exp__year-marker" style="top: 50%;"><span class="label">2023</span></div>
+        <div class="exp__year-marker" style="bottom: 28px;"><span class="label">2021</span></div>
+
+        <div class="exp__roles">
+          <article class="role role--active" data-idx="0">
+            <div class="role__meta">
+              <span>2024 — Current</span>
+              <span>Moody's Corporation</span>
+            </div>
+            <h3 class="role__title">Senior Control Analyst — Corporate, Risk &amp; Resilience</h3>
+            <div class="role__rule"></div>
+            <p class="role__body">Played a pivotal role in achieving ISO 27001:2022 certification by managing evidence gathering, planning, and conducting internal audits. Conducted NIST CSF maturity assessments across various domains and aligned the framework's requirements with ISO 27001:2022 standards, ensuring a cohesive and robust cybersecurity posture.</p>
+            <ul class="role__bullets">
+              <li>Led the cross-functional ISO 27001 implementation: 14 Annex A controls, 4 Statement of Applicability revisions, zero non-conformities at stage 2 audit.</li>
+              <li>Built the evidence-collection pipeline that took control testing from ad-hoc screenshots to a documented quarterly cadence.</li>
+              <li>Owned NIST CSF maturity scoring across 5 domains for the corporate function; produced the heatmap the CISO used for the FY25 plan.</li>
+            </ul>
+          </article>
+
+          <article class="role role--inactive" data-idx="1">
+            <div class="role__meta">
+              <span>May 2023 — Jan 2024</span>
+              <span>EY India</span>
+            </div>
+            <h3 class="role__title">Manager — Cybersecurity</h3>
+            <div class="role__rule"></div>
+            <p class="role__body">Ran cybersecurity maturity assessments and ISO 27001 readiness engagements for financial services clients across India and the Middle East. Owned the workplan, the client cadence, and the final report that went to the partner.</p>
+            <ul class="role__bullets">
+              <li>Delivered 9 client engagements in 9 months; two of them flagship accounts with 100+ control populations.</li>
+              <li>Wrote EY's internal GRC assessment playbook now used across the practice.</li>
+              <li>Coached 4 junior analysts through to Senior in the same window.</li>
+            </ul>
+          </article>
+
+          <article class="role role--inactive" data-idx="2">
+            <div class="role__meta">
+              <span>Dec 2021 — May 2023</span>
+              <span>Moody's Corporation</span>
+            </div>
+            <h3 class="role__title">Senior Control Analyst — Audit, Risk &amp; Compliance</h3>
+            <div class="role__rule"></div>
+            <p class="role__body">First senior analyst on the new ARC function. Stood up the control testing program from scratch — control library, test scripts, evidence standards, the lot — and ran it for two years before handing the operating model to the team.</p>
+            <ul class="role__bullets">
+              <li>Authored 3 control frameworks: SOC 2, ISO 27001, and a custom vendor-risk framework now used across 40+ third parties.</li>
+              <li>Built the risk register that the audit committee still uses.</li>
+              <li>Reduced average evidence-collection cycle from 18 days to 4 days by automating the request workflow.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="resume__block">
+      <p class="eyebrow">Skills</p>
+      <div class="skills">
+        <div class="skill">
+          <span class="skill__label">ISO 27001 Lead Implementer</span>
+          <span class="skill__num">95%</span>
+          <div class="skill__bar"><div class="skill__bar-fill" style="width: 95%;"></div></div>
+        </div>
+        <div class="skill">
+          <span class="skill__label">NIST CSF Maturity Assessment</span>
+          <span class="skill__num">92%</span>
+          <div class="skill__bar"><div class="skill__bar-fill" style="width: 92%;"></div></div>
+        </div>
+        <div class="skill">
+          <span class="skill__label">SOC 2 Type II Readiness</span>
+          <span class="skill__num">88%</span>
+          <div class="skill__bar"><div class="skill__bar-fill" style="width: 88%;"></div></div>
+        </div>
+        <div class="skill">
+          <span class="skill__label">Vulnerability Assessment &amp; Penetration Testing</span>
+          <span class="skill__num">85%</span>
+          <div class="skill__bar"><div class="skill__bar-fill" style="width: 85%;"></div></div>
+        </div>
+        <div class="skill">
+          <span class="skill__label">Cyber Kill Chain / MITRE ATT&amp;CK</span>
+          <span class="skill__num">80%</span>
+          <div class="skill__bar"><div class="skill__bar-fill" style="width: 80%;"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="resume__block">
+      <p class="eyebrow">Certifications</p>
+      <div class="certs">
+        <div class="cert">
+          <img class="cert__badge" src="img/CEH.png" alt="CEH — Certified Ethical Hacker" />
+          <div class="cert__name">Certified Ethical Hacker</div>
+          <div class="cert__meta">EC-Council · 2023</div>
+        </div>
+        <div class="cert cert--white">
+          <img class="cert__badge" src="img/CC.png" alt="CC — ISC2 Certified in Cybersecurity" />
+          <div class="cert__name">Certified in Cybersecurity</div>
+          <div class="cert__meta">ISC2 · 2022</div>
+        </div>
+        <div class="cert">
+          <img class="cert__badge" src="img/ISO-27001-Badge.png" alt="ISO 27001 Lead Implementer" />
+          <div class="cert__name">ISO 27001 Lead Implementer</div>
+          <div class="cert__meta">BSI · 2024</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="section section--forest">
+  <div class="grid">
+    <p class="eyebrow">Contact</p>
+    <h2 class="section-title">Say the quiet part out loud.</h2>
+
+    <div class="contact__grid">
+      <div class="tile" data-copy="akash.nikhra@example.com" tabindex="0" role="button" aria-label="Copy email">
+        <span class="tile__label">Email</span>
+        <div class="tile__value">akash.nikhra@example.com</div>
+        <div class="tile__hint">Click to copy</div>
+        <div class="tile__mark" aria-hidden="true"></div>
+      </div>
+      <div class="tile" data-copy="+91 99999 99999" tabindex="0" role="button" aria-label="Copy phone">
+        <span class="tile__label">Phone</span>
+        <div class="tile__value">+91 99999 99999</div>
+        <div class="tile__hint">Click to copy</div>
+        <div class="tile__mark" aria-hidden="true"></div>
+      </div>
+      <div class="tile" data-copy="Mumbai, India" tabindex="0" role="button" aria-label="Copy location">
+        <span class="tile__label">Location</span>
+        <div class="tile__value">Mumbai, India</div>
+        <div class="tile__hint">Click to copy</div>
+        <div class="tile__mark" aria-hidden="true"></div>
+      </div>
+    </div>
+
+    <div class="contact__ctas">
+      <a href="mailto:akash.nikhra@example.com" class="btn btn--primary">
+        Get in touch
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="5" y1="12" x2="19" y2="12"/>
+          <polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </a>
+      <a href="https://www.linkedin.com/" class="btn btn--ghost-light" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+
+    <div class="socials">
+      <a href="https://github.com/" target="_blank" rel="noopener" aria-label="GitHub">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2 1-.3 2-.4 3-.4s2 .1 3 .4c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.6-1.5 7.9-5.8 7.9-10.9C23.5 5.7 18.3.5 12 .5z"/></svg>
+      </a>
+      <a href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.5 2h-17A1.5 1.5 0 0 0 2 3.5v17A1.5 1.5 0 0 0 3.5 22h17a1.5 1.5 0 0 0 1.5-1.5v-17A1.5 1.5 0 0 0 20.5 2zM8 19H5V9h3v10zM6.5 7.7A1.7 1.7 0 1 1 8.2 6 1.7 1.7 0 0 1 6.5 7.7zM19 19h-3v-5.3c0-1.3-.5-2-1.5-2s-1.5.7-1.5 2V19h-3V9h3v1.4a3 3 0 0 1 2.7-1.5c2 0 3.3 1.3 3.3 3.9V19z"/></svg>
+      </a>
+      <a href="mailto:akash.nikhra@example.com" aria-label="Email">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="grid">
+    <div>© 2026 Akash Nikhra</div>
+    <div class="footer__note">Built with vanilla HTML, CSS, JS · v2</div>
+    <div class="footer__socials">
+      <a href="https://github.com/" target="_blank" rel="noopener" aria-label="GitHub">GH</a>
+      <a href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn">LI</a>
+      <a href="mailto:akash.nikhra@example.com" aria-label="Email">@</a>
+    </div>
+  </div>
+</footer>
+
+<script type="module" src="motion.js"></script>
 </body>
 </html>

@@ -159,6 +159,7 @@ button { font: inherit; cursor: pointer; }
   inset: 0;
   background: linear-gradient(180deg, rgba(14,59,46,0.30) 0%, rgba(14,59,46,0.95) 100%);
   pointer-events: none;
+  will-change: transform;
 }
 .hero__grid {
   position: relative;
@@ -411,6 +412,30 @@ button { font: inherit; cursor: pointer; }
   right: 20px;
   color: var(--ink);
   opacity: 0.4;
+  transition: opacity 250ms ease, transform 250ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.service__icon svg {
+  display: block;
+  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.service__icon svg * {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.service:hover .service__icon {
+  opacity: 0.75;
+  transform: scale(1.1);
+}
+.service:hover .service__icon svg {
+  transform: rotate(-4deg);
+}
+.service:hover .service__icon svg * {
+  animation: draw-stroke 600ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes draw-stroke {
+  from { stroke-dashoffset: 1; }
+  to   { stroke-dashoffset: 0; }
 }
 .service__title {
   margin: 40px 0 12px 0;
@@ -849,4 +874,10 @@ button { font: inherit; cursor: pointer; }
     transform: none;
   }
   .cert:hover { border-color: var(--rule); }
+  .service:hover .service__icon,
+  .service:hover .service__icon svg,
+  .service:hover .service__icon svg * {
+    transform: none;
+    animation: none;
+  }
 }

@@ -1,8 +1,17 @@
 /* =====================================================================
-   Akash Nikhra — Portfolio motion module (v2)
+   Akash Nikhra — Portfolio motion module (v2 + motion enhancements)
    ESM. Loads motion.dev v12.40.0 from esm.sh. Self-gates; safe to load.
-   Six behaviors: header scroll state, hero parallax, scroll-pinned
-   active role, copy-tiles, motion gate, hero-reveal no-op check.
+   Behaviors:
+     1.  initHeaderScroll        - sticky header hairline past 80px
+     2.  initHeroParallax        - 2-layer parallax (bg -40, vignette -16)
+     3.  initSectionReveals      - eyebrows + section titles fade-up on view
+     4.  initStatCounters        - count from 0 to data-count on view
+     5.  initSkillBars           - bar fills from 0 to data-percent on view
+     6.  initServiceCards        - 4 cards stagger fade-up on view
+     7.  initExperienceActive    - toggle .role--active on scroll
+     8.  initCopyTiles           - click-to-copy + Enter/Space
+     9.  initMotionGate          - body classes for reduced + coarse
+    10.  initHeroReveal          - no-op (CSS @keyframes handle the reveal)
    CSS owns the static state; this module enhances only.
    ===================================================================== */
 
@@ -32,18 +41,126 @@ function initHeaderScroll() {
   onScroll();
 }
 
-/* 2. Hero parallax (translateY only; CSS owns opacity) */
+/* 2. Hero 2-layer parallax (translateY only; CSS owns opacity) */
 function initHeroParallax() {
   const hero = $(".hero");
   if (!hero || REDUCED) return;
   const bg = $(".hero__bg", hero);
-  if (!bg) return;
+  const vignette = $(".hero__vignette", hero);
+  if (!bg && !vignette) return;
   scroll((progress) => {
-    bg.style.transform = `translate3d(0, ${progress * -40}px, 0)`;
+    if (bg)       bg.style.transform       = `translate3d(0, ${progress * -40}px, 0)`;
+    if (vignette) vignette.style.transform = `translate3d(0, ${progress * -16}px, 0)`;
   }, { target: hero, offset: ["start start", "end start"] });
 }
 
-/* 3. Scroll-pinned active role on experience timeline */
+/* 3. Section title + eyebrow reveal on view */
+function initSectionReveals() {
+  if (REDUCED) return;
+  const targets = $$(".section > .grid > .eyebrow, .section > .grid > .section-title");
+  if (!targets.length) return;
+
+  // Set initial hidden state
+  targets.forEach((el) => {
+    el.style.opacity = "0";
+    el.style.transform = "translateY(16px)";
+  });
+
+  targets.forEach((el) => {
+    inView(el, () => {
+      animate(el,
+        { opacity: [0, 1], y: [16, 0] },
+        { duration: 0.6, ease: EASE_OUT }
+      );
+    }, { amount: 0.3 });
+  });
+}
+
+/* 4. Count-up stats on view */
+function initStatCounters() {
+  const nums = $$(".stat__num");
+  if (!nums.length) return;
+
+  nums.forEach((el) => {
+    const target = parseFloat(el.dataset.count || "0");
+    if (!Number.isFinite(target)) return;
+    const suffix = el.dataset.suffix || "";
+
+    if (REDUCED) {
+      el.firstChild ? null : null; // keep static
+      return;
+    }
+
+    // Reset to 0 + suffix so the animation has something to count from
+    const staticText = el.innerHTML;
+    const prefix = staticText.replace(/[0-9.]/g, "").replace(suffix, ""); // preserve the <em>+ wrapping
+    el.textContent = `0${suffix}`;
+    // Re-insert the <em> wrapping for the suffix if it had one
+    if (suffix && prefix === "") {
+      el.innerHTML = `0<em>${suffix}</em>`;
+    }
+
+    inView(el, () => {
+      animate(0, target, {
+        duration: 1.4,
+        ease: "easeOut",
+        onUpdate: (v) => {
+          const rounded = Math.round(v);
+          if (suffix) {
+            el.innerHTML = `${rounded}<em>${suffix}</em>`;
+          } else {
+            el.textContent = String(rounded);
+          }
+        }
+      });
+    }, { amount: 0.4 });
+  });
+}
+
+/* 5. Skill bar fill on view (with stagger) */
+function initSkillBars() {
+  const skills = $$(".skill");
+  if (!skills.length) return;
+
+  skills.forEach((s) => {
+    const fill = $(".skill__bar-fill", s);
+    if (!fill) return;
+    const target = parseFloat(s.dataset.percent || "0");
+    if (!Number.isFinite(target)) return;
+
+    if (REDUCED) {
+      fill.style.width = `${target}%`;
+      return;
+    }
+
+    // Reset to 0 so the animation has something to grow from
+    fill.style.width = "0%";
+
+    inView(s, () => {
+      animate(fill, { width: [`${0}%`, `${target}%`] }, { duration: 1.2, ease: EASE_OUT });
+    }, { amount: 0.4 });
+  });
+}
+
+/* 6. Service cards stagger reveal on view */
+function initServiceCards() {
+  const cards = $$(".service");
+  if (!cards.length || REDUCED) return;
+
+  cards.forEach((c) => {
+    c.style.opacity = "0";
+    c.style.transform = "translateY(24px)";
+  });
+
+  inView($(".services"), () => {
+    animate(cards,
+      { opacity: [0, 1], y: [24, 0] },
+      { duration: 0.5, delay: stagger(0.08), ease: EASE_OUT }
+    );
+  }, { amount: 0.2 });
+}
+
+/* 7. Scroll-pinned active role on experience timeline */
 function initExperienceActive() {
   const exp = $(".exp");
   if (!exp || REDUCED) return;
@@ -70,7 +187,7 @@ function initExperienceActive() {
   onScroll();
 }
 
-/* 4. Click-to-clipboard on contact tiles */
+/* 8. Click-to-clipboard on contact tiles */
 function initCopyTiles() {
   const tiles = $$(".tile[data-copy]");
   if (!tiles.length) return;
@@ -98,13 +215,13 @@ function initCopyTiles() {
   });
 }
 
-/* 5. Motion gate: body classes for reduced-motion + coarse-pointer */
+/* 9. Motion gate: body classes for reduced-motion + coarse-pointer */
 function initMotionGate() {
   document.body.classList.toggle("motion-reduced", REDUCED);
   document.body.classList.toggle("motion-coarse", COARSE);
 }
 
-/* 6. Hero word-reveal presence check (CSS @keyframes does the work) */
+/* 10. Hero word-reveal presence check (CSS @keyframes does the work) */
 function initHeroReveal() {
   if (REDUCED) return;
   const words = $$(".hero h1 .word > span");
@@ -115,10 +232,14 @@ function initHeroReveal() {
 function init() {
   initMotionGate();
   initHeaderScroll();
-  safe("HeroParallax", initHeroParallax);
-  safe("Experience",   initExperienceActive);
-  safe("HeroReveal",   initHeroReveal);
-  safe("CopyTiles",    initCopyTiles);
+  safe("HeroParallax",     initHeroParallax);
+  safe("SectionReveals",   initSectionReveals);
+  safe("StatCounters",     initStatCounters);
+  safe("SkillBars",        initSkillBars);
+  safe("ServiceCards",     initServiceCards);
+  safe("ExperienceActive", initExperienceActive);
+  safe("HeroReveal",       initHeroReveal);
+  safe("CopyTiles",        initCopyTiles);
   console.log("[motion] all inits dispatched");
 }
 

@@ -451,6 +451,7 @@ button { font: inherit; cursor: pointer; background: none; border: 0; color: inh
 .services__title {
   font-family: var(--font-mono);
   font-size: 11px;
+  font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.18em;
   color: var(--muted);

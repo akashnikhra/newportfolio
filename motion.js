@@ -20,6 +20,7 @@
     15.  initHeroCursorSpotlight - coral radial gradient follows cursor in hero
     16.  initHero3DTilt        - .hero__inner rotateX/Y +/- 6deg on cursor move
     17.  initHeroMagneticTitle - .hero__title-word pulled toward cursor (1200ms gate)
+    18.  initScrambleText      - [data-scramble] elements get a 600ms char-scramble tween on inView
 
    CSS owns the static state; this module enhances only. Every behavior
    self-gates on REDUCED (no transform/animation work if user prefers
@@ -467,6 +468,78 @@ function initHeroMagneticTitle() {
   hero.addEventListener("mouseleave", reset);
 }
 
+/* 18. Section eyebrow scramble: [data-scramble] elements get a 600ms char-cycle
+       tween (easeInOutQuart) on inView. The element's textContent is the target.
+       Two-span structure: .scramble-text__sizer (absolute, hidden, width-locks
+       the box) and .scramble-text__live (visible, animated). Char pool is
+       A-Z + 0-9 + the target's own special chars (so '·', '&', '/' appear).
+       REDUCED snaps to the target text with no animation. */
+function initScrambleText() {
+  const els = $$("[data-scramble]");
+  if (!els.length) return;
+
+  const POOL = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  const DURATION = 600;
+  const easeInOutQuart = (t) =>
+    t < 0.5 ? 8 * t * t * t * t : 1 - Math.pow(-2 * t + 2, 4) / 2;
+
+  els.forEach((el) => {
+    const target = el.textContent;
+    if (!target) return;
+
+    const specials = new Set();
+    for (const c of target) {
+      if (!POOL.includes(c) && c.trim() !== "") specials.add(c);
+    }
+    const pool = POOL + [...specials].join("");
+
+    const sizer = document.createElement("span");
+    sizer.className = "scramble-text__sizer";
+    sizer.setAttribute("aria-hidden", "true");
+    sizer.textContent = target;
+
+    const live = document.createElement("span");
+    live.className = "scramble-text__live";
+    live.setAttribute("aria-label", target);
+
+    el.classList.add("scramble-text");
+    el.textContent = "";
+    el.appendChild(sizer);
+    el.appendChild(live);
+
+    const width = sizer.getBoundingClientRect().width;
+    el.style.setProperty("--scramble-width", `${Math.ceil(width)}px`);
+
+    const resolve = () => { live.textContent = target; };
+
+    const run = () => {
+      if (REDUCED) { resolve(); return; }
+      const start = performance.now();
+      const frame = (now) => {
+        const t = Math.min((now - start) / DURATION, 1);
+        const e = easeInOutQuart(t);
+        const revealed = Math.round(e * target.length);
+        let s = "";
+        for (let i = 0; i < target.length; i++) {
+          s += i < revealed
+            ? target[i]
+            : pool[(Math.random() * pool.length) | 0];
+        }
+        live.textContent = s;
+        if (t < 1) requestAnimationFrame(frame);
+        else resolve();
+      };
+      requestAnimationFrame(frame);
+    };
+
+    inView(el, () => {
+      if (el.dataset.scrambleFired === "1") return;
+      el.dataset.scrambleFired = "1";
+      run();
+    }, { amount: 0.4 });
+  });
+}
+
 function init() {
   initMotionGate();
   safe("ScrollProgress",    initScrollProgress);
@@ -482,6 +555,7 @@ function init() {
   safe("SkillFills",        initSkillFills);
   safe("CountUp",           initCountUp);
   safe("CopyTiles",         initCopyTiles);
+  safe("ScrambleText",      initScrambleText);
   safe("HeroCursorSpotlight", initHeroCursorSpotlight);
   safe("Hero3DTilt",        initHero3DTilt);
   safe("HeroMagneticTitle", initHeroMagneticTitle);

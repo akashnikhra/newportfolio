@@ -1086,6 +1086,26 @@ button { font: inherit; cursor: pointer; background: none; border: 0; color: inh
 [data-reveal-stagger].is-in > * { opacity: 1; transform: translateY(0); }
 
 /* =====================================================================
+   SCRAMBLE TEXT (initScrambleText in motion.js)
+   ===================================================================== */
+.scramble-text {
+  display: inline-block;
+  position: relative;
+  width: var(--scramble-width, auto);
+  white-space: pre;
+}
+.scramble-text__sizer {
+  position: absolute;
+  visibility: hidden;
+  pointer-events: none;
+  white-space: pre;
+}
+.scramble-text__live {
+  display: inline-block;
+  white-space: pre;
+}
+
+/* =====================================================================
    REDUCED MOTION + COARSE POINTER NEUTRALIZERS
    ===================================================================== */
 @media (prefers-reduced-motion: reduce) {

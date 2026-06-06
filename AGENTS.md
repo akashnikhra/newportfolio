@@ -13,7 +13,7 @@ Section order:
 
 - `.scroll-progress` — fixed 2px coral hairline at the very top, fills left-to-right as user scrolls
 - `<header class="header">` — sticky 64px glassy bar with AN mark (animated coral dot), nav links (underline-on-hover), no CV pill (moved to contact)
-- `<section class="hero">` — full-viewport **ink** band with **3-layer parallax** (bg gradient / `bigsection1.jpg` mid at 55% luminosity / foreground measurement grid) that reacts to **scroll + cursor**, system status mono readout (LAT/LON/SYS/NODE) top-right, corner ticks, **coral radial cursor spotlight** following the mouse, **3D-tilted `.hero__inner`** (±6° on X/Y), **magnetic title words** (pull toward cursor within 250px), CSS-only word-by-word "Akash Nikhra" reveal, static subtitle, 4 mono meta stat cells in a hairline row
+- `<section class="hero">` — full-viewport **ink** band with **3-layer parallax** (bg gradient / `bigsection1.jpg` mid at 55% luminosity / foreground measurement grid) that reacts to **scroll + cursor**, system status mono readout (LAT/LON/SYS/NODE) top-right, corner ticks, **coral radial cursor spotlight** following the mouse, **3D-tilted `.hero__inner`** (±6° on X/Y), **magnetic title words** (pull toward cursor within 250px), CSS-only word-by-word "Akash Nikhra" reveal, static subtitle, 4 mono meta stat cells in a hairline row, **scrambling eyebrow** on first paint
 - `<section id="about">` — 5/7 layout (portrait + content), 3 stats with animated count-ups, mono tag chip row, 2x2 service grid with shared hairlines and mono "01-04" indices
 - `<section id="resume">` — section head, vertical timeline rail with 4 year markers (active = pulsing coral dot, label coral) and 4 role cards (active role = coral left bar + full opacity, inactive = 35%), 5 skill bars (width animates on view), 4 cert cards (Tenable.io WAS / MITRE ATT&CK / DevSecOps monograms + ISO 27001 LA badge)
 - `<section id="contact">` — full-bleed **forest** band, 3 click-to-copy tiles with coral 32px chrome squares, 2 CTAs (coral pill + LinkedIn ghost), 3 social icons
@@ -22,7 +22,7 @@ Section order:
 ## File layout
 - `index.html` — the only live page. Semantic HTML, hand-written.
 - `styles.css` — single stylesheet. Design tokens at `:root`, type scale (Space Grotesk + Inter + JetBrains Mono), section/component styles, responsive breakpoints, `prefers-reduced-motion` and `(pointer: coarse)` neutralizers, reveal scaffolding (`[data-reveal]`, `[data-reveal-stagger]`, `.is-in`).
-- `motion.js` — ESM module. Imports `animate, scroll, inView` from `https://esm.sh/motion@12.40.0`. 17 init functions, all wrapped in `safe()`. CSS owns the static state; this module enhances only.
+- `motion.js` — ESM module. Imports `animate, scroll, inView` from `https://esm.sh/motion@12.40.0`. 18 init functions, all wrapped in `safe()`. CSS owns the static state; this module enhances only.
 - `img/` — photos and certificate badges. 7 files, 5 used in `index.html`:
   - `bigsection1.jpg` — hero mid-layer (parallax)
   - `2.jpg` — about portrait
@@ -68,7 +68,7 @@ No jQuery, no LMPixels shell, no Google reCAPTCHA, no Google Maps, no analytics.
 | Footer: 3-col copyright/note/socials | Footer: 3-col copyright/note/`// process.exit(0)` |
 | 10 motion behaviors | 17 motion behaviors (9 v3 baseline + 5 scroll/load entrances + 3 cursor-driven hero effects: parallax reacts to mouse, coral radial spotlight follows cursor, .hero__inner 3D-tilts, title words magnetize) |
 
-## Motion behaviors (17)
+## Motion behaviors (18)
 
 | # | Function | API | What it does |
 |---|---|---|---|
@@ -89,6 +89,7 @@ No jQuery, no LMPixels shell, no Google reCAPTCHA, no Google Maps, no analytics.
 | 15 | `initHeroCursorSpotlight` | `mousemove` | On hero hover, write `--cursor-x` / `--cursor-y` as percentages; CSS radial-gradient on `.hero__cursor-glow` follows. Disabled on reduced-motion + coarse-pointer |
 | 16 | `initHero3DTilt` | `animate()` | `.hero__inner` rotates `±6°` on `rotateX` / `rotateY` based on cursor position (mouse moves set target, `mouseleave` springs back to 0 over 900ms). Needs CSS `perspective: 1200px` on `.hero` + `transform-style: preserve-3d` on `.hero__inner`. Disabled on reduced-motion + coarse-pointer |
 | 17 | `initHeroMagneticTitle` | `animate()` | Each `.hero__title-word` is pulled toward cursor with `maxDist 250px` and `strength 0.2`; scale grows up to `1.2×` near cursor. Gated 1200ms so the CSS `wordIn` keyframe finishes first. Disabled on reduced-motion + coarse-pointer |
+| 18 | `initScrambleText` | rAF + `inView()` | `[data-scramble]` elements (the 4 section eyebrows) get a 600ms char-scramble tween (easeInOutQuart) on `inView({ amount: 0.4 })`. Element is restructured into a 2-span container (`.scramble-text__sizer` for width lock, `.scramble-text__live` for the cycle). Char pool is `A-Z` + `0-9` + the target's own special chars. REDUCED snaps to target text with no animation |
 
 The CSS-only word-by-word hero name reveal (refresh to see it) and the dot pulse keyframe are owned by `styles.css`. `motion.js` enhances behaviors that scroll can drive.
 

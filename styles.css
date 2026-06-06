@@ -174,7 +174,22 @@ button { font: inherit; cursor: pointer; background: none; border: 0; color: inh
   padding-bottom: clamp(48px, 8vh, 96px);
   background: var(--ink);
   color: var(--paper);
+  perspective: 1200px;
 }
+.hero__cursor-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  background: radial-gradient(
+    400px circle at var(--cursor-x, 50%) var(--cursor-y, 50%),
+    rgba(232, 98, 60, 0.18),
+    transparent 70%
+  );
+}
+.hero:hover .hero__cursor-glow { opacity: 1; }
 .hero__layer {
   position: absolute;
   inset: 0;
@@ -248,7 +263,7 @@ button { font: inherit; cursor: pointer; background: none; border: 0; color: inh
 .hero__corner--tl { top: 24px; left: var(--gutter); border-right: 0; border-bottom: 0; }
 .hero__corner--br { bottom: 24px; right: var(--gutter); border-left: 0; border-top: 0; }
 
-.hero__inner { position: relative; z-index: 3; width: 100%; }
+.hero__inner { position: relative; z-index: 3; width: 100%; transform-style: preserve-3d; }
 .hero__eyebrow {
   display: inline-flex;
   align-items: center;
@@ -1082,6 +1097,7 @@ button { font: inherit; cursor: pointer; background: none; border: 0; color: inh
   }
   .hero__title-word { opacity: 1; transform: none; }
   .hero__layer { transform: none !important; }
+  .hero__cursor-glow { display: none; }
   [data-reveal], [data-reveal-stagger] > * { opacity: 1; transform: none; }
 }
 

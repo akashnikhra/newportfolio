@@ -74,12 +74,17 @@ No jQuery, no LMPixels shell, no Google reCAPTCHA, no Google Maps, no analytics.
 | 1 | `initMotionGate` | `matchMedia` | Add `motion-reduced` / `motion-coarse` body classes; CSS neutralizes below the threshold |
 | 2 | `initScrollProgress` | `scroll()` | `#scrollFill` transform `scaleX(0)` -> `scaleX(progress)` with document scroll |
 | 3 | `initHeroParallax` | `scroll()` | For each `[data-parallax]` layer in `.hero`, `translate3d(0, progress * -120 * rate, 0)` — rates are 0.10 / 0.22 / 0.40 for bg / mid / fg |
-| 4 | `initReveal` | `inView()` | `[data-reveal]` adds `.is-in` class on inView (amount 0.2, once) — CSS owns the opacity + translateY transition |
-| 5 | `initRevealStagger` | `inView()` | `[data-reveal-stagger]` adds `.is-in` on its parent; CSS staggers child `transition-delay` 0/100/200/300/400/500ms |
-| 6 | `initExperienceActive` | `scroll` event | Find the `.role` whose center is closest to viewport center; toggle `.role--active` / `.role--inactive`. Disabled on mobile + reduced-motion |
-| 7 | `initSkillFills` | `inView()` + rAF | `.skill__fill` starts at 0%, on inView rAF-double-pump sets the inline `style="width: X%"` and CSS transition animates to it |
-| 8 | `initCountUp` | `animate()` | `[data-count="N"]` tween from 0 to N over 1.4s ease-out; rounded on update |
-| 9 | `initCopyTiles` | click + keydown | `.tile[data-copy]` writes value to `navigator.clipboard`, swaps `.tile__copy` text to "Copied \u2713" for 1.5s. Handles Enter/Space for keyboard |
+| 4 | `initHeroEntrance` | `animate()` | On load, `.hero__eyebrow` / `.hero__sub` / `.hero__meta` fade-up with 150ms stagger (delays 450 / 600 / 750ms). Title words are CSS-only |
+| 5 | `initHeroStatusReveal` | `animate()` | On load, the 4 `.hero__status` rows slide-in from `x: 24px` with 100ms stagger (delays 400 / 500 / 600 / 700ms) |
+| 6 | `initHeroCorners` | `animate()` | On load, the 2 `.hero__corner` ticks fade in with `scale: 0.6 -> 1` and 150ms stagger (delays 500 / 650ms) |
+| 7 | `initReveal` | `inView()` | `[data-reveal]` adds `.is-in` class on inView (amount 0.2, once) — CSS owns the opacity + translateY transition |
+| 8 | `initRevealStagger` | `inView()` | `[data-reveal-stagger]` adds `.is-in` on its parent; CSS staggers child `transition-delay` 0/100/200/300/400/500ms |
+| 9 | `initExperienceActive` | `scroll` event | Find the `.role` whose center is closest to viewport center; toggle `.role--active` / `.role--inactive`. Disabled on mobile + reduced-motion |
+| 10 | `initTimelineRailFill` | `scroll()` | `.timeline__rail-fill` is a coral child of the gray rail; `scaleY(0) -> scaleY(progress)` with scroll progress through the timeline (offsets `start 80%` -> `end 30%`). With reduced-motion, set to `scaleY(1)` |
+| 11 | `initServiceIconsDraw` | `inView()` + `animate()` | For each `.service__icon`, set `stroke-dasharray` = `getTotalLength()` on every child shape; on inView tween `strokeDashoffset` to 0 over 800ms with 120ms stagger per shape. With reduced-motion, paths stay at default visible state |
+| 12 | `initSkillFills` | `inView()` + rAF | `.skill__fill` starts at 0%, on inView rAF-double-pump sets the inline `style="width: X%"` and CSS transition animates to it |
+| 13 | `initCountUp` | `animate()` | `[data-count="N"]` tween from 0 to N over 1.4s ease-out; rounded on update |
+| 14 | `initCopyTiles` | click + keydown | `.tile[data-copy]` writes value to `navigator.clipboard`, swaps `.tile__copy` text to "Copied \u2713" for 1.5s. Handles Enter/Space for keyboard |
 
 The CSS-only word-by-word hero name reveal (refresh to see it) and the dot pulse keyframe are owned by `styles.css`. `motion.js` enhances behaviors that scroll can drive.
 

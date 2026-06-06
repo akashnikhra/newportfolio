@@ -6,12 +6,17 @@
      1.  initMotionGate        - body classes for reduced-motion + coarse-pointer
      2.  initScrollProgress    - #scrollFill scaleX 0->1 with document scroll
      3.  initHeroParallax      - 3-layer parallax at [data-parallax] rates
-     4.  initReveal            - [data-reveal] -> add .is-in on inView
-     5.  initRevealStagger     - [data-reveal-stagger] -> add .is-in on inView
-     6.  initExperienceActive  - toggle .role--active/--inactive on scroll
-     7.  initSkillFills        - .skill__fill width 0 -> X% on inView
-     8.  initCountUp           - [data-count] tween 0 -> target on inView
-     9.  initCopyTiles         - .tile[data-copy] click/Enter/Space -> "Copied"
+     4.  initHeroEntrance      - eyebrow/sub/meta fade-up with stagger (load)
+     5.  initHeroStatusReveal  - 4 hero__status rows slide-in-from-right (load)
+     6.  initHeroCorners       - 2 hero__corner ticks fade+scale in (load)
+     7.  initReveal            - [data-reveal] -> add .is-in on inView
+     8.  initRevealStagger     - [data-reveal-stagger] -> add .is-in on inView
+     9.  initExperienceActive  - toggle .role--active/--inactive on scroll
+    10.  initTimelineRailFill  - .timeline__rail-fill scaleY 0->1 with scroll
+    11.  initServiceIconsDraw  - .service__icon paths draw via stroke-dashoffset
+    12.  initSkillFills        - .skill__fill width 0 -> X% on inView
+    13.  initCountUp           - [data-count] tween 0 -> target on inView
+    14.  initCopyTiles         - .tile[data-copy] click/Enter/Space -> "Copied"
 
    CSS owns the static state; this module enhances only. Every behavior
    self-gates on REDUCED (no transform/animation work if user prefers
@@ -78,7 +83,61 @@ function initHeroParallax() {
   );
 }
 
-/* 4. [data-reveal] elements fade up on inView */
+/* 4. Hero entrance choreography - eyebrow, sub, meta fade-up with stagger
+       (Title words use CSS-only wordIn keyframe; status is #5; corners are #6) */
+function initHeroEntrance() {
+  if (REDUCED) return;
+  const hero = $(".hero");
+  if (!hero) return;
+
+  const targets = [
+    { sel: ".hero__eyebrow", delay: 0.45 },
+    { sel: ".hero__sub",     delay: 0.6  },
+    { sel: ".hero__meta",    delay: 0.75 },
+  ];
+
+  targets.forEach(({ sel, delay }) => {
+    const el = $(sel, hero);
+    if (!el) return;
+    animate(
+      el,
+      { opacity: [0, 1], y: [14, 0] },
+      { duration: 0.7, delay, ease: EASE_OUT }
+    );
+  });
+}
+
+/* 5. Hero system status readout - 4 rows slide-in from right with stagger */
+function initHeroStatusReveal() {
+  if (REDUCED) return;
+  const status = $(".hero__status");
+  if (!status) return;
+
+  Array.from(status.children).forEach((row, i) => {
+    animate(
+      row,
+      { opacity: [0, 1], x: [24, 0] },
+      { duration: 0.6, delay: 0.4 + i * 0.1, ease: EASE_OUT }
+    );
+  });
+}
+
+/* 6. Hero corner ticks fade-in with slight scale, staggered */
+function initHeroCorners() {
+  if (REDUCED) return;
+  const corners = $$(".hero__corner");
+  if (!corners.length) return;
+
+  corners.forEach((corner, i) => {
+    animate(
+      corner,
+      { opacity: [0, 1], scale: [0.6, 1] },
+      { duration: 0.7, delay: 0.5 + i * 0.15, ease: EASE_OUT }
+    );
+  });
+}
+
+/* 7. [data-reveal] elements fade up on inView */
 function initReveal() {
   const targets = $$("[data-reveal]");
   if (!targets.length) return;
@@ -92,7 +151,7 @@ function initReveal() {
   });
 }
 
-/* 5. [data-reveal-stagger] containers - children stagger fade up */
+/* 8. [data-reveal-stagger] containers - children stagger fade up */
 function initRevealStagger() {
   const groups = $$("[data-reveal-stagger]");
   if (!groups.length) return;
@@ -106,7 +165,7 @@ function initRevealStagger() {
   });
 }
 
-/* 6. Scroll-pinned active role on the experience timeline */
+/* 9. Scroll-pinned active role on the experience timeline */
 function initExperienceActive() {
   const timeline = $(".timeline");
   if (!timeline || REDUCED || MOBILE) return;
@@ -135,7 +194,70 @@ function initExperienceActive() {
   setActive();
 }
 
-/* 7. Skill bar fill: animate width 0 -> X% on inView
+/* 10. Timeline rail fills from top with scroll progress */
+function initTimelineRailFill() {
+  const fill = $(".timeline__rail-fill");
+  const timeline = $(".timeline");
+  if (!fill || !timeline) return;
+
+  if (REDUCED) {
+    fill.style.transform = "scaleY(1)";
+    return;
+  }
+
+  fill.style.transformOrigin = "top center";
+  fill.style.transform = "scaleY(0)";
+
+  scroll(
+    (progress) => {
+      fill.style.transform = `scaleY(${progress})`;
+    },
+    { target: timeline, offset: ["start 80%", "end 30%"] }
+  );
+}
+
+/* 11. Service icon paths draw on inView (stroke-dashoffset tween) */
+function initServiceIconsDraw() {
+  if (REDUCED) return;
+  const icons = $$(".service__icon");
+  if (!icons.length) return;
+
+  icons.forEach((icon) => {
+    const shapes = Array.from(
+      icon.querySelectorAll("path, circle, rect, line, polyline, polygon")
+    );
+    if (!shapes.length) return;
+
+    const drawables = shapes.map((shape) => {
+      let length = 0;
+      try {
+        if (typeof shape.getTotalLength === "function") {
+          length = shape.getTotalLength();
+        }
+      } catch (e) { /* some shapes may not support getTotalLength */ }
+      if (!length || !Number.isFinite(length)) length = 200;
+      shape.style.strokeDasharray = `${length}`;
+      shape.style.strokeDashoffset = `${length}`;
+      return shape;
+    });
+
+    inView(
+      icon,
+      () => {
+        drawables.forEach((shape, i) => {
+          animate(
+            shape,
+            { strokeDashoffset: 0 },
+            { duration: 0.8, delay: 0.15 + i * 0.12, ease: EASE_OUT }
+          );
+        });
+      },
+      { amount: 0.3, once: true }
+    );
+  });
+}
+
+/* 12. Skill bar fill: animate width 0 -> X% on inView
       (CSS transition handles the actual interpolation once width is set) */
 function initSkillFills() {
   const fills = $$(".skill__fill");
@@ -166,7 +288,7 @@ function initSkillFills() {
   });
 }
 
-/* 8. Count-up stats on inView */
+/* 13. Count-up stats on inView */
 function initCountUp() {
   const counters = $$("[data-count]");
   if (!counters.length) return;
@@ -198,7 +320,7 @@ function initCountUp() {
   });
 }
 
-/* 9. Click-to-clipboard on contact tiles */
+/* 14. Click-to-clipboard on contact tiles */
 function initCopyTiles() {
   const tiles = $$(".tile[data-copy]");
   if (!tiles.length) return;
@@ -236,9 +358,14 @@ function init() {
   initMotionGate();
   safe("ScrollProgress",    initScrollProgress);
   safe("HeroParallax",      initHeroParallax);
+  safe("HeroEntrance",      initHeroEntrance);
+  safe("HeroStatusReveal",  initHeroStatusReveal);
+  safe("HeroCorners",       initHeroCorners);
   safe("Reveal",            initReveal);
   safe("RevealStagger",     initRevealStagger);
   safe("ExperienceActive",  initExperienceActive);
+  safe("TimelineRailFill",  initTimelineRailFill);
+  safe("ServiceIconsDraw",  initServiceIconsDraw);
   safe("SkillFills",        initSkillFills);
   safe("CountUp",           initCountUp);
   safe("CopyTiles",         initCopyTiles);

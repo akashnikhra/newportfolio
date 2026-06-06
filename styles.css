@@ -544,6 +544,16 @@ button { font: inherit; cursor: pointer; background: none; border: 0; color: inh
   width: 1px;
   background: var(--rule);
 }
+.timeline__rail-fill {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--coral);
+  transform: scaleY(0);
+  transform-origin: top center;
+  will-change: transform;
+}
 .timeline__year {
   position: absolute;
   left: 0;

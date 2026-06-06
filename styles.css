@@ -341,7 +341,7 @@ button { font: inherit; cursor: pointer; background: none; border: 0; color: inh
   align-items: center;
   gap: 12px;
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 12.5px;
   text-transform: uppercase;
   letter-spacing: 0.18em;
   color: var(--muted);
@@ -450,7 +450,7 @@ button { font: inherit; cursor: pointer; background: none; border: 0; color: inh
 .services { margin-top: 64px; }
 .services__title {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 12.5px;
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.18em;
@@ -894,7 +894,7 @@ button { font: inherit; cursor: pointer; background: none; border: 0; color: inh
   align-items: center;
   gap: 10px;
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 12.5px;
   text-transform: uppercase;
   letter-spacing: 0.16em;
   color: var(--paper-60);
